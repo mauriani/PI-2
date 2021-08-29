@@ -35,7 +35,7 @@ export const Form = styled.View`
   padding: 10px;
 `;
 
-export const SignInButton = styled.TouchableOpacity`
+export const SignUpButton = styled.TouchableOpacity`
   margin-top: 100px;
 `;
 

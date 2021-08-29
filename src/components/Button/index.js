@@ -3,10 +3,10 @@ import React from 'react';
 
 import { Container, Title } from './styles';
 
-export function Button({ onPress, ...rest }) {
+export default function Button({ title, onPress, ...rest }) {
   return (
     <Container {...rest} onPress={onPress}>
-      <Title>Enviar</Title>
+      <Title>{title}</Title>
     </Container>
   );
 }

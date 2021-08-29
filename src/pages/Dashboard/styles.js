@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Header = styled.View`
   height: ${RFValue(120)}px;
   width: 100%;
-  background-color: transparent;
+  background-color: #845ec2;
 
   justify-content: center;
   align-items: center;
