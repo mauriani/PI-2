@@ -1,21 +1,26 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import TabsNavigator from './TabsNavigator';
+
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
-import { TabsNavigator } from './TabsNavigator';
 
 const App = createStackNavigator();
 
-export default function routes() {
+export default function Routes() {
   return (
-    <>
-      <App.Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer>
+      <App.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName="Dashboard"
+      >
         <App.Screen name="SignIn" component={SignIn} />
         <App.Screen name="SignUp" component={SignUp} />
         <App.Screen name="Dashboard" component={TabsNavigator} />
       </App.Navigator>
-    </>
+    </NavigationContainer>
   );
 }

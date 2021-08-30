@@ -10,7 +10,7 @@ import User from '../pages/User';
 
 const Tab = createBottomTabNavigator();
 
-export function TabsNavigator() {
+export default function TabsNavigator() {
   return (
     <Tab.Navigator
       tabBarOptions={{
@@ -20,6 +20,7 @@ export function TabsNavigator() {
         style: {
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
           height: 60,
+          backgroundColor: '#06050B',
         },
       }}
     >
