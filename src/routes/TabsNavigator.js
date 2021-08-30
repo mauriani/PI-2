@@ -20,7 +20,7 @@ export default function TabsNavigator() {
         style: {
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
           height: 60,
-          backgroundColor: '#06050B',
+          backgroundColor: '#c4c4c4',
         },
       }}
     >
