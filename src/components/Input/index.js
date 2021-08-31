@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { Container } from './styles';
+import { Container, InputText } from './styles';
 
 export default function Input({ ...rest }) {
-  return <Container {...rest}></Container>;
+  return (
+    <Container>
+      <InputText {...rest} />
+    </Container>
+  );
 }

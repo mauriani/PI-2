@@ -32,8 +32,8 @@ export default function SignIn() {
 
         <Title>Faça o seu Login</Title>
 
-        <Input placeholder="Usuário" placeholderTextColor="#000" />
-        <Input placeholder="Digite Senha" placeholderTextColor="#000" />
+        <Input placeholder="Usuário" />
+        <Input placeholder="Senha" />
 
         <Button title="Login" onPress={navigateToDashboard} />
 

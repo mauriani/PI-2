@@ -11,9 +11,9 @@ export default function SignUp() {
       <Form>
         <Title>Faça o seu Cadastro</Title>
 
-        <Input placeholder="Nome" placeholderTextColor="#000" />
-        <Input placeholder="E-mail" placeholderTextColor="#000" />
-        <Input placeholder="Digite uma Senha" placeholderTextColor="#000" />
+        <Input placeholder="Nome" placeholderTextColor="#3D3D4C" />
+        <Input placeholder="E-mail" placeholderTextColor="#3D3D4C" />
+        <Input placeholder="Digite uma Senha" placeholderTextColor="#3D3D4C" />
 
         <Button title="Login" onPress={() => {}} />
 

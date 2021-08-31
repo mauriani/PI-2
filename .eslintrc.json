@@ -21,6 +21,7 @@
     "camelcase": "off",
     "no-undef" : 2,
     "import/first":"off",
+    "react/prop-types": "off",
     "prettier/prettier": [
       "error",
       {
