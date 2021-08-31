@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,7 +13,7 @@ export default function Routes() {
     <NavigationContainer>
       <App.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="Dashboard"
+        initialRouteName="SignIn"
       >
         <App.Screen name="SignIn" component={SignIn} />
         <App.Screen name="SignUp" component={SignUp} />

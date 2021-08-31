@@ -1,20 +1,24 @@
-/* eslint-disable prettier/prettier */
 import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'react-native';
 
+import { ThemeProvider } from 'styled-components';
+
 import Routes from './routes';
+import theme from './global/styles/theme';
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <StatusBar
-        barStyle="light-content"
-        backgroundColor="#6548A3"
+        backgroundColor="#f0f2f5"
         translucent
+        barStyle="dark-content"
       />
-      <Routes />
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
