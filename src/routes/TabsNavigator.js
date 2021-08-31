@@ -49,7 +49,7 @@ export default function TabsNavigator() {
         component={User}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <Icon name="heart" size={size} color={color} />
+            <Icon name="person" size={size} color={color} />
           ),
         }}
       />
