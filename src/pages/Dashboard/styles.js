@@ -6,23 +6,6 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const Header = styled.View`
-  height: ${RFValue(120)}px;
-  width: 100%;
-  background-color: #845ec2;
-
-  justify-content: center;
-  align-items: center;
-
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-`;
-
-export const Logo = styled.Image`
-  height: ${RFValue(60)}px;
-  width: 80%;
-`;
-
 export const Content = styled.View`
   margin-top: 10px;
   margin-left: 10px;
@@ -32,7 +15,7 @@ export const Content = styled.View`
 export const Card = styled.View`
   height: ${RFValue(100)}px;
   width: 100%;
-  background-color: #b0a8b9;
+  background: ${({ theme }) => theme.colors.shape};
 
   border-radius: 10px;
 
@@ -42,13 +25,13 @@ export const Card = styled.View`
 
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.base};
   padding: 0 16px;
 `;
 
 export const SubTitle = styled.Text`
   font-size: ${RFValue(30)}px;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.base};
 
   font-weight: 700;
   padding: 0 16px;

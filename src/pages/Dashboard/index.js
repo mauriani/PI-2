@@ -1,49 +1,37 @@
 import React from 'react';
 
-import {
-  Container,
-  Header,
-  Logo,
-  Content,
-  Card,
-  Title,
-  SubTitle,
-} from './styles';
+import { ScrollView } from 'react-native';
 
-import LogoHeader from '../../assets/images/medic04_branco.png';
+import { Container, Content, Card, Title, SubTitle } from './styles';
+
+import Header from '../../components/Header';
 
 export default function Dashboard() {
   return (
     <Container>
-      <Header>
-        <Logo source={LogoHeader} resizeMode="cover" />
-      </Header>
+      <Header />
 
       <Content>
-        <Card>
-          <Title>Paciente - Ana Maria</Title>
-          <SubTitle>11:05</SubTitle>
-        </Card>
+        <ScrollView
+          vertical={true}
+          showsVerticalScrollIndicator={false}
+          style={{ marginBottom: 10 }}
+        >
+          <Card>
+            <Title>Ana Maria Rodrigues Silva</Title>
+            <SubTitle>12:00</SubTitle>
+          </Card>
 
-        <Card>
-          <Title>Paciente 09</Title>
-          <SubTitle>11:05</SubTitle>
-        </Card>
+          <Card>
+            <Title>Antônio Carlos Silva</Title>
+            <SubTitle>11:05</SubTitle>
+          </Card>
 
-        <Card>
-          <Title>Paciente 09</Title>
-          <SubTitle>11:05</SubTitle>
-        </Card>
-
-        <Card>
-          <Title>Paciente 09</Title>
-          <SubTitle>11:05</SubTitle>
-        </Card>
-
-        <Card>
-          <Title>Paciente 09</Title>
-          <SubTitle>11:05</SubTitle>
-        </Card>
+          <Card>
+            <Title>Mariana De Almeida</Title>
+            <SubTitle>10:00</SubTitle>
+          </Card>
+        </ScrollView>
       </Content>
     </Container>
   );

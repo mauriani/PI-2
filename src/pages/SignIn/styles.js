@@ -17,7 +17,7 @@ export const Logo = styled.Image`
 
 export const Title = styled.Text`
   font-size: 24px;
-  font-family: 'RobotoSlab-Medium';
+  font-family: ${({ theme }) => theme.fonts.medium};
   padding: 0 16px;
 
   margin-bottom: 20px;

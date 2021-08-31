@@ -1,6 +1,6 @@
 export default {
   colors: {
-    primary: '#5636d3',
+    primary: '#845ec2',
     secondary: '#ff872c',
     secondary_light: 'rgba(255,135,44,0.3)',
 
@@ -17,6 +17,7 @@ export default {
     text_dark: '#000000',
 
     background: '#f0f2f5',
+    base: '#6C6C80',
   },
 
   fonts: {

@@ -15,12 +15,12 @@ export default function TabsNavigator() {
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: '#845ec2',
-        inactiveTintColor: '#FFF',
+        inactiveTintColor: '#B0A8B9',
         labelPosition: 'beside-icon',
         style: {
           paddingVertical: Platform.OS === 'ios' ? 20 : 0,
           height: 60,
-          backgroundColor: '#c4c4c4',
+          backgroundColor: '#f0f2f5',
         },
       }}
     >
