@@ -219,6 +219,13 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 
 
 project.ext.vectoricons = [
-    iconFontNames: [ 'MaterialIcons.ttf', 'EvilIcons.ttf', 'Ionicons.ttf', ]
+    iconFontNames: [ 
+        'MaterialIcons.ttf',
+        'MaterialCommunityIcons.ttf', 
+        'EvilIcons.ttf', 
+        'Ionicons.ttf', 
+        'Feather.ttf',  
+        'MaterialCommunityIcons.ttf'
+        ]
 ]
 

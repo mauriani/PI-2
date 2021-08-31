@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
@@ -13,7 +14,7 @@ export const Content = styled.View`
 `;
 
 export const Card = styled.View`
-  height: ${RFValue(100)}px;
+  height: ${RFValue(120)}px;
   width: 100%;
   background: ${({ theme }) => theme.colors.shape};
 
@@ -29,10 +30,24 @@ export const Title = styled.Text`
   padding: 0 16px;
 `;
 
+export const ContainerHour = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+
+  margin-top: 5px;
+`;
+
 export const SubTitle = styled.Text`
   font-size: ${RFValue(30)}px;
   color: ${({ theme }) => theme.colors.base};
 
   font-weight: 700;
   padding: 0 16px;
+`;
+
+export const Icon = styled(Feather)`
+  font-size: ${RFValue(24)}px;
+  color: ${({ theme }) => theme.colors.attention};
+
+  margin-right: 20px;
 `;
