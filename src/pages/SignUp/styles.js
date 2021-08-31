@@ -4,7 +4,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #f0f2f5;
+  background-color: ${({ theme }) => theme.colors.background};
 
   align-items: center;
   justify-content: center;
@@ -17,7 +17,7 @@ export const Logo = styled.Image`
 `;
 
 export const Title = styled.Text`
-  font-size: 24px;
+  font-size: ${RFValue(24)}px;
   font-family: 'RobotoSlab-Medium';
   padding: 0 16px;
 
