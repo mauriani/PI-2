@@ -15,7 +15,7 @@ export default function SignUp() {
   return (
     <Container>
       <Form>
-        <Title>Faça o seu Cadastro</Title>
+        <Title>Faça o seu cadastro</Title>
 
         <Input placeholder="Nome" placeholderTextColor="#3D3D4C" />
         <Input placeholder="E-mail" placeholderTextColor="#3D3D4C" />

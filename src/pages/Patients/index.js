@@ -39,7 +39,7 @@ export default function Patients() {
   return (
     <Container>
       <Header />
-      <Title>Patients</Title>
+      <Title>Pacientes</Title>
       <Content>
         <FlatList
           data={data}
