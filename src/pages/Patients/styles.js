@@ -21,7 +21,7 @@ export const Title = styled.Text`
   margin-bottom: 8px;
 `;
 
-export const Card = styled.View`
+export const Card = styled.TouchableOpacity`
   height: ${RFValue(120)}px;
   width: 100%;
   border-radius: 10px;
