@@ -19,9 +19,7 @@ export default function Patients() {
     {
       id: '1',
       patientName: 'Maria Luiza Rodrigues',
-      treatment: 'Ansiedade',
-      medicine: 'Buspirona',
-      allergy: 'Não',
+      age: '67 anos',
       image:
         'https://cdn.dribbble.com/users/403631/screenshots/14517923/media/0fd032a739adf9bec98b6af71a5b85d7.jpg?compress=1&resize=800x600',
     },
@@ -29,9 +27,7 @@ export default function Patients() {
     {
       id: '2',
       patientName: 'João Paulo Loureiro',
-      treatment: 'Ansiedade',
-      medicine: 'Buspirona',
-      allergy: 'Não',
+      age: '70 anos',
       image:
         'https://cdn.dribbble.com/users/1174720/screenshots/15718185/media/b54ee56400b00386f558b6a6f465d5b0.png?compress=1&resize=1200x900',
     },
@@ -56,9 +52,7 @@ export default function Patients() {
                 />
                 <Information>
                   <PatientsName>{item.patientName}</PatientsName>
-                  <PatientsText>Tratamento - {item.treatment}</PatientsText>
-                  <PatientsText>Medicamento - {item.medicine}</PatientsText>
-                  <PatientsText>Alérgia - {item.allergy}</PatientsText>
+                  <PatientsText>Idade {item.age}</PatientsText>
                 </Information>
               </CardPattients>
             </Card>
