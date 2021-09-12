@@ -4025,7 +4025,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
+invariant@^2.2.2, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -6219,6 +6219,13 @@ react-native-iphone-x-helper@^1.3.0, react-native-iphone-x-helper@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz#20c603e9a0e765fd6f97396638bdeb0e5a60b010"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-onesignal@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-4.3.0.tgz#69f99cbf04fb2fa2792641b54e97a48edab33402"
+  integrity sha512-Ancw3jimAR3unrgKNOFuXnkMlvp+nl1vHbseVPBAcjfN9CkdvbFdX7tVkj4pPW2jDn6urITefgRQq67wB7pD2A==
+  dependencies:
+    invariant "^2.2.2"
 
 react-native-reanimated@^2.3.0-alpha.2:
   version "2.3.0-alpha.2"

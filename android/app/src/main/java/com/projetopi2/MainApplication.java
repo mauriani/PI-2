@@ -9,6 +9,12 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
+
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
