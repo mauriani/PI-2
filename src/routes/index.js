@@ -5,6 +5,7 @@ import TabsNavigator from './TabsNavigator';
 
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import DetailsPatient from '../pages/DetailsPatient';
 
 const App = createStackNavigator();
 
@@ -18,6 +19,7 @@ export default function Routes() {
         <App.Screen name="SignIn" component={SignIn} />
         <App.Screen name="SignUp" component={SignUp} />
         <App.Screen name="Dashboard" component={TabsNavigator} />
+        <App.Screen name="DetailsPatient" component={DetailsPatient} />
       </App.Navigator>
     </NavigationContainer>
   );

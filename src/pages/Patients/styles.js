@@ -6,15 +6,9 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const Content = styled.View`
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-`;
-
 export const Title = styled.Text`
   font-size: 24px;
-  font-family: 'RobotoSlab-Medium';
+  font-family: ${({ theme }) => theme.fonts.medium};
   padding: 0 16px;
 
   margin-top: 5px;
@@ -22,18 +16,20 @@ export const Title = styled.Text`
 `;
 
 export const Card = styled.TouchableOpacity`
-  height: ${RFValue(120)}px;
-  width: 100%;
+  flex-direction: row;
+
+  height: ${RFValue(100)}px;
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.shape};
 
-  margin-bottom: 10px;
-  justify-content: center;
+  padding: 10px;
+
+  margin: 0px 10px 9px 10px;
 `;
 
 export const CardPattients = styled.View`
-  padding: 10px;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const UserAvatar = styled.Image`
@@ -42,20 +38,28 @@ export const UserAvatar = styled.Image`
   border-radius: 98px;
 `;
 
-export const PatientsName = styled.Text`
-  font-size: ${RFValue(16)}px;
-  font-family: 'RobotoSlab-Medium';
-  padding: 0 16px;
-`;
-
 export const Information = styled.View`
   flex-direction: column;
-  padding: 8px;
+  justify-content: center;
+
+  padding: 0 10px;
+`;
+
+export const PatientsName = styled.Text`
+  font-size: ${RFValue(14)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+  color: ${({ theme }) => theme.colors.text_dark};
+  margin-bottom: 5px;
+`;
+
+export const PatientsTextBold = styled.Text`
+  font-size: ${RFValue(13)}px;
+  font-family: ${({ theme }) => theme.fonts.boldRubik};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const PatientsText = styled.Text`
-  font-size: ${RFValue(15)}px;
-  font-family: 'RobotoSlab-Regular';
-  padding: 0 16px;
+  font-size: ${RFValue(13)}px;
+  font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
 `;

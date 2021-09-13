@@ -23,5 +23,8 @@ export default {
   fonts: {
     medium: 'RobotoSlab-Medium',
     regular: 'RobotoSlab-Regular',
+    regularRubik: 'Rubik-Regular',
+    mediumRubik: 'Rubik-Medium',
+    boldRubik: 'Rubik-Bold',
   },
 };

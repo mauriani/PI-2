@@ -10,6 +10,9 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 
+ import com.facebook.react.bridge.JSIModulePackage;
+ import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
@@ -32,6 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
           List<ReactPackage> packages = new PackageList(this).getPackages();
           // Packages that cannot be autolinked yet can be added manually here, for example:
           // packages.add(new MyReactNativePackage());
+          new ReanimatedJSIModulePackage();
+
           return packages;
         }
 

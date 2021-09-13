@@ -14,7 +14,8 @@
   "parser": "@babel/eslint-parser",
   "plugins": [
     "react",
-    "prettier"
+    "prettier",
+    "react-native-reanimated/plugin"
   ],
   "rules": {
     "no-unused-vars" : 2,
