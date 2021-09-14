@@ -1,9 +1,10 @@
-import firebase from 'firebase';
+import firebase from 'react-native-firebase';
 import 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB4AflN8j0b0vxcDErOdqev80NahbnJ2k8',
   authDomain: 'manipulacao-833d1.firebaseapp.com',
+  databaseURL: 'https://manipulacao-833d1-default-rtdb.firebaseio.com',
   projectId: 'manipulacao-833d1',
   storageBucket: 'manipulacao-833d1.appspot.com',
   messagingSenderId: '28791682199',
@@ -13,6 +14,4 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-const database = firebase.firestore();
-
-export default database;
+export default firebase;

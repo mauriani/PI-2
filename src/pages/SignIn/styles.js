@@ -34,7 +34,7 @@ export const Form = styled.View`
 `;
 
 export const SignInButton = styled.TouchableOpacity`
-  margin-top: 100px;
+  margin-top: 70px;
 `;
 
 export const ButtonText = styled.Text`
