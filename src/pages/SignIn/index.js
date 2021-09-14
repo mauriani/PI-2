@@ -22,6 +22,7 @@ export default function SignIn() {
   const [error, setError] = useState('');
 
   const { navigate } = useNavigation();
+  const navigation = useNavigation();
 
   const handleSubmit = useCallback(() => {
     firebase
@@ -39,9 +40,13 @@ export default function SignIn() {
       });
   }, [navigate]);
 
-  const navigateToSignUp = useCallback(() => {
-    navigate('SignUp');
-  }, [navigate]);
+  // const navigateToSignUp = useCallback(() => {
+  //   navigate('SignUp');
+  // }, [navigate]);
+
+  function navigateToSignUp() {
+    navigation.navigate('SignUp');
+  }
 
   return (
     <KeyboardAvoidingView
