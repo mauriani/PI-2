@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import firebase from 'react-native-firebase';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView } from 'react-native';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import firebase from '../../config/firebaseconfig';
 
 import { Container, Title, Form, SignUpButton, ButtonText } from './styles';
 
@@ -17,20 +17,20 @@ const SignUp = () => {
 
   const { navigate } = useNavigation();
 
-  // const handleSubmit = useCallback(() => {
-  //   // firebase
-  //   //   .auth()
-  //   //   .createUserWithEmailAndPassword(email, password)
-  //   //   .then(userCredential => {
-  //   //     const user = userCredential.user;
-  //   //     navigate('SignIn', { idUser: user.uid });
-  //   //   })
-  //   //   .catch(error => {
-  //   //     setError(true);
-  //   //     const errorCode = error.code;
-  //   //     const errorMessage = error.message;
-  //   //   });
-  // }, [navigate]);
+  const handleSubmit = useCallback(() => {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(name, email, password)
+      .then(userCredential => {
+        const user = userCredential.user;
+        navigate('SignIn', { idUser: user.uid });
+      })
+      .catch(error => {
+        setError(true);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  }, [navigate]);
 
   function navigateToSignIn() {
     navigate('SignIn');
@@ -67,7 +67,7 @@ const SignUp = () => {
             //onSubmitEditing={handleSubmit}
           />
 
-          <Button title="Cadastrar-se" onPress={() => {}} />
+          <Button title="Cadastrar-se" onPress={handleSubmit} />
 
           <SignUpButton onPress={navigateToSignIn}>
             <ButtonText>Voltar para login</ButtonText>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "28791682199",
+    "firebase_url": "https://manipulacao-833d1-default-rtdb.firebaseio.com",
+    "project_id": "manipulacao-833d1",
+    "storage_bucket": "manipulacao-833d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28791682199:android:49d60e98bf2a5a726565d2",
+        "android_client_info": {
+          "package_name": "com.projetopi2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28791682199-5pbcn970ab08ctae0kim9ssiotn4sjcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBB80F8qqNZCwZHP5w8iIosxa5zTzoJTEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28791682199-5pbcn970ab08ctae0kim9ssiotn4sjcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

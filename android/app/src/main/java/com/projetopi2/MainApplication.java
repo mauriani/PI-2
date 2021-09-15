@@ -4,14 +4,15 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 
- import com.facebook.react.bridge.JSIModulePackage;
- import com.swmansion.reanimated.ReanimatedJSIModulePackage;
+import com.facebook.react.bridge.JSIModulePackage;
+import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
