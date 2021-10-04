@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native';
+
+import Header from '../../components/Header';
+
 import {
   Container,
   Title,
-  Content,
   Card,
   CardPattients,
   UserAvatar,
@@ -13,8 +15,6 @@ import {
   PatientsTextBold,
   PatientsText,
 } from './styles';
-
-import Header from '../../components/Header';
 
 export default function Patients() {
   const { navigate } = useNavigation();

@@ -1,8 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import LogoHeader from '../../assets/images/medic04_preto.png';
 import firebase from '../../config/firebaseconfig';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
 
 import {
   Container,
@@ -12,9 +15,6 @@ import {
   SignInButton,
   ButtonText,
 } from './styles';
-
-import Button from '../../components/Button';
-import Input from '../../components/Input';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -39,10 +39,6 @@ export default function SignIn() {
         const errorMessage = error.message;
       });
   }, [navigate]);
-
-  // const navigateToSignUp = useCallback(() => {
-  //   navigate('SignUp');
-  // }, [navigate]);
 
   function navigateToSignUp() {
     navigation.navigate('SignUp');
