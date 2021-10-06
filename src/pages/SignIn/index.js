@@ -58,7 +58,13 @@ export default function SignIn() {
         const errorCode = error.code;
         const errorMessage = error.message;
 
-        Alert.alert('Atenção', errorMessage);
+        if (errorCode === 'auth/email-already-in-use') {
+          Alert.alert('Atenção', 'Esse e-mail já está em uso');
+        }
+
+        if (errorCode === 'auth/invalid-email') {
+          Alert.alert('Atenção', 'Esse e-mail é inválido');
+        }
       });
   }
 
