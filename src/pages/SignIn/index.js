@@ -55,7 +55,7 @@ export default function SignIn() {
   function isTheUserAuthenticated() {
     let user = firebase.auth().currentUser.uid;
 
-    if (user) {
+    if (user != null) {
       setAuthenticated(true);
       navigate('Dashboard', { idUser: user.uid });
     } else {
