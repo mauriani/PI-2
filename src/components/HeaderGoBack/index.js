@@ -1,8 +1,11 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Container, Topo, Title, GoBackButton, Icon } from './styles';
 
 export default function HeaderGoBack(item) {
+  const navigation = useNavigation();
+
   return (
     <>
       <StatusBar
@@ -12,7 +15,7 @@ export default function HeaderGoBack(item) {
       />
       <Container>
         <Topo>
-          <GoBackButton onPress={() => {}}>
+          <GoBackButton onPress={() => navigation.goBack()}>
             <Icon name="arrow-back" />
           </GoBackButton>
           <Title>{item.title}</Title>

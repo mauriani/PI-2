@@ -46,7 +46,6 @@ export default function SignIn() {
   });
 
   async function handleLogin(form) {
-    console.log(form);
     auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
