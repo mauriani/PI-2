@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -8,12 +8,11 @@ import {
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
+import auth, { firebase } from '@react-native-firebase/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
 import LogoHeader from '../../assets/images/medic04_preto.png';
-import firebase from '../../config/firebaseconfig';
 import Button from '../../components/Button';
 import InputForm from '../../components/InputForm';
 
@@ -35,9 +34,14 @@ const schema = Yup.object().shape({
 
 export default function SignIn() {
   const [error, setError] = useState('');
+  const [authenticated, setAuthenticated] = useState([]);
 
   const { navigate } = useNavigation();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    isTheUserAuthenticated();
+  }, []);
 
   const {
     control,
@@ -47,6 +51,17 @@ export default function SignIn() {
     // força que nossa validação siga um padrão
     resolver: yupResolver(schema),
   });
+
+  function isTheUserAuthenticated() {
+    let user = firebase.auth().currentUser.uid;
+
+    if (user) {
+      setAuthenticated(true);
+      navigate('Dashboard', { idUser: user.uid });
+    } else {
+      setAuthenticated(false);
+    }
+  }
 
   async function handleLogin(form) {
     auth()
