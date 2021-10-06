@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import firestore from '@react-native-firebase/firestore';
 import { FlatList } from 'react-native';
 
 import Header from '../../components/Header';
@@ -18,6 +19,10 @@ import {
 
 export default function Patients() {
   const { navigate } = useNavigation();
+
+  const usersCollection = firestore().collection('patients').get();
+
+  console.log(usersCollection);
 
   const data = [
     {

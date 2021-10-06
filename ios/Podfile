@@ -14,6 +14,7 @@ target 'projetopi2' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+
   target 'projetopi2Tests' do
     inherit! :complete
     # Pods for testing

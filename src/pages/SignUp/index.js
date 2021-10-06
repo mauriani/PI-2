@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
 import { useNavigation } from '@react-navigation/native';
 import { KeyboardAvoidingView } from 'react-native';
 

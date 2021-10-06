@@ -1,11 +1,20 @@
-import React, { useCallback, useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 
 import LogoHeader from '../../assets/images/medic04_preto.png';
 import firebase from '../../config/firebaseconfig';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
+import InputForm from '../../components/InputForm';
 
 import {
   Container,
@@ -16,18 +25,30 @@ import {
   ButtonText,
 } from './styles';
 
+const schema = Yup.object().shape({
+  email: Yup.string().required('E-mail é obrigatório'),
+  password: Yup.string().required('Senha é obrigatório'),
+});
+
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const { navigate } = useNavigation();
   const navigation = useNavigation();
 
-  const handleSubmit = useCallback(() => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // força que nossa validação siga um padrão
+    resolver: yupResolver(schema),
+  });
+
+  async function handleLogin(form) {
+    console.log(form);
+    auth()
+      .signInWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
         const user = userCredential.user;
 
@@ -37,8 +58,10 @@ export default function SignIn() {
         setError(true);
         const errorCode = error.code;
         const errorMessage = error.message;
+
+        Alert.alert('Atenção', errorMessage);
       });
-  }, [navigate]);
+  }
 
   function navigateToSignUp() {
     navigation.navigate('SignUp');
@@ -60,25 +83,25 @@ export default function SignIn() {
 
             <Title>Faça o seu Login</Title>
 
-            <Input
-              value={email}
-              icon="mail"
+            <InputForm
+              name="email"
               placeholder="E-mail"
-              onChangeText={text => setEmail(text)}
+              icon="mail"
+              control={control}
+              underlineColorAndroid="transparent"
+              error={errors.email && errors.email.message}
               returnKeyType="next"
             />
-            <Input
-              value={password}
+            <InputForm
+              name="password"
               placeholder="Senha"
               secureTextEntry={true}
-              onChangeText={text => setPassword(text)}
+              autoCorrect={false}
+              control={control}
+              error={errors.password && errors.password.message}
             />
 
-            {email === '' || password === '' ? (
-              <Button title="Login" disabled={true} />
-            ) : (
-              <Button title="Login" onPress={handleSubmit} />
-            )}
+            <Button title="Login" onPress={handleSubmit(handleLogin)} />
 
             <SignInButton onPress={navigateToSignUp}>
               <ButtonText>Cadastrar-se</ButtonText>

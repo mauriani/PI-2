@@ -1,4 +1,4 @@
-import firebase from 'react-native-firebase';
+import firebase from '@react-native-firebase/app';
 import 'firebase/storage';
 
 const firebaseConfig = {
@@ -12,6 +12,8 @@ const firebaseConfig = {
   measurementId: 'G-YCYCCGVNH4',
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 export default firebase;

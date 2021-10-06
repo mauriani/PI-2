@@ -45,14 +45,16 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar
-        backgroundColor="#f0f2f5"
-        translucent
-        barStyle="dark-content"
-      />
-      <ThemeProvider theme={theme}>
-        <Routes />
-      </ThemeProvider>
+      <>
+        <StatusBar
+          backgroundColor="#f0f2f5"
+          translucent
+          barStyle="dark-content"
+        />
+        <ThemeProvider theme={theme}>
+          <Routes />
+        </ThemeProvider>
+      </>
     </SafeAreaProvider>
   );
 }
