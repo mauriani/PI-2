@@ -4,6 +4,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  View,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
@@ -23,6 +24,8 @@ import {
   Form,
   SignInButton,
   ButtonText,
+  ForgotPasswordButton,
+  ForgotPasswordButtonText,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -72,6 +75,10 @@ export default function SignIn() {
     navigation.navigate('SignUp');
   }
 
+  function navigateToForgotPassword() {
+    navigation.navigate('ForgotPassword');
+  }
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -111,6 +118,12 @@ export default function SignIn() {
             <SignInButton onPress={navigateToSignUp}>
               <ButtonText>Cadastrar-se</ButtonText>
             </SignInButton>
+
+            <ForgotPasswordButton onPress={navigateToForgotPassword}>
+              <ForgotPasswordButtonText>
+                Esqueceu seu senha ?
+              </ForgotPasswordButtonText>
+            </ForgotPasswordButton>
           </Form>
         </Container>
       </ScrollView>

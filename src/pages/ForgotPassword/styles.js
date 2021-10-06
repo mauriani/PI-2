@@ -13,14 +13,22 @@ export const Container = styled.View`
 export const Logo = styled.Image`
   height: ${RFValue(60)}px;
   width: 100%;
-  margin-bottom: ${RFValue(100)}px;
+  margin-bottom: ${RFValue(80)}px;
 `;
 
 export const Title = styled.Text`
-  font-size: 24px;
+  font-size: ${RFValue(18)}px;
   font-family: ${({ theme }) => theme.fonts.medium};
   padding: 0 16px;
 
+  margin-bottom: 10px;
+`;
+
+export const InformationsText = styled.Text`
+  padding: 0 20px;
+  font-size: ${RFValue(12)}px;
+  font-family: ${({ theme }) => theme.fonts.regularRubik};
+  color: ${({ theme }) => theme.colors.text};
   margin-bottom: 20px;
 `;
 
@@ -32,23 +40,4 @@ export const Form = styled.View`
   align-items: center;
 
   padding: 10px;
-`;
-
-export const SignInButton = styled(BorderlessButton)`
-  margin-top: ${RFValue(20)}px;
-`;
-
-export const ButtonText = styled.Text`
-  color: #845ec2;
-  font-size: ${RFValue(15)}px;
-`;
-
-export const ForgotPasswordButton = styled(BorderlessButton)`
-  margin-top: ${RFValue(20)}px;
-`;
-
-export const ForgotPasswordButtonText = styled.Text`
-  font-size: ${RFValue(15)}px;
-  font-family: ${({ theme }) => theme.fonts.medium};
-  color: ${({ theme }) => theme.colors.attention_light};
 `;
