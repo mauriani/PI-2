@@ -53,7 +53,11 @@ export default function SignIn() {
   });
 
   function isTheUserAuthenticated() {
-    let user = firebase.auth().currentUser.uid;
+    let user;
+
+    if (firebase.auth().currentUser != null) {
+      user = firebase.auth().currentUser.uid;
+    }
 
     if (user != null) {
       setAuthenticated(true);

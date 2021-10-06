@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import firestore from '@react-native-firebase/firestore';
 
 import { FlatList } from 'react-native';
 
@@ -15,43 +16,32 @@ import {
 import Header from '../../components/Header';
 
 export default function Dashboard() {
-  const data = [
-    {
-      id: '1',
-      patientName: 'Maria Luiza Rodrigues',
-      hour: '16:00',
-    },
-    {
-      id: '2',
-      patientName: 'Luiz Fernando De Paula',
-      hour: '17:00',
-    },
-    {
-      id: '3',
-      patientName: 'João Paulo Loureiro',
-      hour: '18:00',
-    },
-    {
-      id: '4',
-      patientName: 'João Paulo Loureiro',
-      hour: '18:00',
-    },
-    {
-      id: '5',
-      patientName: 'Maria Luiza',
-      hour: '18:00',
-    },
-    {
-      id: '6',
-      patientName: 'Pedro Antônio',
-      hour: '18:00',
-    },
-    {
-      id: '7',
-      patientName: 'João Paulo Loureiro',
-      hour: '18:00',
-    },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  async function getDados() {
+    setLoading(false);
+
+    const snapshot = await firestore().collection('patients').get();
+
+    setData(snapshot.docs.map(doc => doc.data()));
+
+    setLoading(true);
+  }
+
+  useEffect(() => {
+    getDados();
+  }, []);
+
+  const dataFormatted = data.map(item => {
+    return {
+      id: item.id,
+      patientName: item.patientName,
+      hours: item.hours,
+    };
+  });
+
+  console.log(dataFormatted);
 
   return (
     <Container>
@@ -59,15 +49,15 @@ export default function Dashboard() {
 
       <Content>
         <FlatList
-          data={data}
+          data={dataFormatted}
           keyExtractor={item => item.id}
           showsVerticalScrollIndicator={false}
           style={{ marginBottom: 10 }}
           renderItem={({ item }) => (
-            <Card>
+            <Card key={item.id}>
               <Title>{item.patientName}</Title>
               <ContainerHour>
-                <SubTitle>{item.hour}</SubTitle>
+                <SubTitle>{item.hours.hour}</SubTitle>
                 <Icon name="bell" />
               </ContainerHour>
             </Card>
