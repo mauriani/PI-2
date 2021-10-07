@@ -13,6 +13,15 @@ export const Content = styled.View`
   margin-right: 10px;
 `;
 
+export const InformationsText = styled.Text`
+  padding: 0 10px;
+  margin-top: 8px;
+
+  font-size: ${RFValue(15)}px;
+  font-family: ${({ theme }) => theme.fonts.regularRubik};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
 export const Card = styled.View`
   height: ${RFValue(120)}px;
   width: 100%;
