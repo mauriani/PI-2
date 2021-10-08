@@ -64,7 +64,7 @@ const SignUp = () => {
             placeholder="Digite uma Senha"
             placeholderTextColor="#3D3D4C"
             onChangeText={text => setPassword(text)}
-            //onSubmitEditing={handleSubmit}
+            
           />
 
           <Button title="Cadastrar-se" onPress={handleSubmit} />

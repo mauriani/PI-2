@@ -51,13 +51,13 @@ export default function SignIn() {
     resolver: yupResolver(schema),
   });
 
-  async function isTheUserAuthenticated() {
+  function isTheUserAuthenticated() {
     let user;
 
-    const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
-    console.log('User JWT: ', idTokenResult.token);
+    // const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
+    // console.log('User JWT: ', idTokenResult.token);
 
-    console.log(firebase.auth().currentUser._user);
+    // console.log(firebase.auth().currentUser._user);
 
     if (firebase.auth().currentUser != null) {
       user = firebase.auth().currentUser.uid;
