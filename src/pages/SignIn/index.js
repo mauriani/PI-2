@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth, { firebase } from '@react-native-firebase/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -54,11 +55,6 @@ export default function SignIn() {
   function isTheUserAuthenticated() {
     let user;
 
-    // const idTokenResult = await firebase.auth().currentUser.getIdTokenResult();
-    // console.log('User JWT: ', idTokenResult.token);
-
-    // console.log(firebase.auth().currentUser._user);
-
     if (firebase.auth().currentUser != null) {
       user = firebase.auth().currentUser.uid;
     }
@@ -72,17 +68,32 @@ export default function SignIn() {
   }
 
   async function handleLogin(form) {
-    auth()
+    await auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
         const user = userCredential.user;
 
-        navigate('Dashboard', { idUser: user.uid });
+        const dataKey = '@medic:user';
+
+        const usersRef = firebase.firestore().collection('users');
+        usersRef
+          .doc(user.uid)
+          .get()
+          .then(firestoreDocument => {
+            if (!firestoreDocument.exists) {
+              Alert.alert('User does not exist anymore.');
+              return;
+            }
+            const user = firestoreDocument.data();
+
+            AsyncStorage.setItem(dataKey, JSON.stringify(user));
+
+            navigation.navigate('Dashboard');
+          });
       })
       .catch(error => {
         setError(true);
         const errorCode = error.code;
-        const errorMessage = error.message;
 
         if (errorCode === 'auth/email-already-in-use') {
           Alert.alert('Atenção', 'Esse e-mail já está em uso');

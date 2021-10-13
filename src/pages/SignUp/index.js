@@ -1,36 +1,73 @@
-import React, { useState, useCallback } from 'react';
-import firebase from '@react-native-firebase/app';
+import React from 'react';
+import { KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { useNavigation } from '@react-navigation/native';
-import { KeyboardAvoidingView } from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
-import Input from '../../components/Input';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+import LogoHeader from '../../assets/images/medic04_preto.png';
 import Button from '../../components/Button';
+import InputForm from '../../components/InputForm';
 
 import { Container, Title, Form, SignUpButton, ButtonText } from './styles';
 
+const schema = Yup.object().shape({
+  name: Yup.string().required('Nome é obrigatório'),
+  profession: Yup.string().required('Profissão é obrigatório'),
+  email: Yup.string().required('E-mail é obrigatório'),
+  password: Yup.string().min(6, 'No mínimo 6 dígitos'),
+});
+
 const SignUp = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
-  const [error, setError] = useState('');
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // força que nossa validação siga um padrão
+    resolver: yupResolver(schema),
+  });
 
-  const { navigate } = useNavigation();
-
-  const handleSubmit = useCallback(() => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(name, email, password)
+  async function handleSubmitSignUp(form) {
+    await auth()
+      .createUserWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
         const user = userCredential.user;
-        navigate('SignIn', { idUser: user.uid });
+
+        const data = {
+          id: user.uid,
+          name: form.name,
+          profession: form.profession,
+          email: form.email,
+          password: form.password,
+          photo: '',
+        };
+        const usersRef = firestore().collection('users');
+
+        usersRef
+          .doc(user.uid)
+          .set(data)
+          .then(() => {
+            navigation.navigate('SignIn');
+          });
       })
       .catch(error => {
-        setError(true);
         const errorCode = error.code;
-        const errorMessage = error.message;
+
+        if (errorCode === 'auth/email-already-in-use') {
+          Alert.alert('Atenção', 'Esse e-mail já está em uso');
+        }
+
+        if (errorCode === 'auth/invalid-email') {
+          Alert.alert('Atenção', 'Esse e-mail é inválido');
+        }
       });
-  }, [navigate]);
+  }
 
   function navigateToSignIn() {
     navigate('SignIn');
@@ -45,29 +82,50 @@ const SignUp = () => {
       <Container>
         <Form>
           <Title>Faça o seu cadastro</Title>
-          <Input
-            value={name}
+
+          <InputForm
+            name="name"
             placeholder="Nome"
-            placeholderTextColor="#3D3D4C"
-            onChangeText={text => setName(text)}
+            icon="user"
+            control={control}
+            autoCorrect
+            autoCapitalize="words"
             returnKeyType="next"
-          />
-          <Input
-            value={email}
-            placeholder="E-mail"
-            placeholderTextColor="#3D3D4C"
-            onChangeText={text => setEmail(text)}
-            returnKeyType="next"
-          />
-          <Input
-            value={password}
-            placeholder="Digite uma Senha"
-            placeholderTextColor="#3D3D4C"
-            onChangeText={text => setPassword(text)}
-            
+            error={errors.name && errors.name.message}
           />
 
-          <Button title="Cadastrar-se" onPress={handleSubmit} />
+          <InputForm
+            name="profession"
+            placeholder="Profissão"
+            icon="user"
+            control={control}
+            autoCorrect
+            autoCapitalize="words"
+            returnKeyType="next"
+            error={errors.profession && errors.profession.message}
+          />
+          <InputForm
+            name="email"
+            placeholder="E-mail"
+            icon="mail"
+            control={control}
+            underlineColorAndroid="transparent"
+            error={errors.email && errors.email.message}
+            returnKeyType="next"
+          />
+          <InputForm
+            name="password"
+            placeholder="Senha"
+            secureTextEntry={true}
+            autoCorrect={false}
+            control={control}
+            error={errors.password && errors.password.message}
+          />
+
+          <Button
+            title="Cadastrar-se"
+            onPress={handleSubmit(handleSubmitSignUp)}
+          />
 
           <SignUpButton onPress={navigateToSignIn}>
             <ButtonText>Voltar para login</ButtonText>
