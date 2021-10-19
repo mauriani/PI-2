@@ -11,17 +11,28 @@ import { ThemeProvider } from 'styled-components';
 import Routes from './routes';
 import theme from './global/styles/theme';
 
+const {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER,
+  APP_ID,
+  MEASURMENT_ID,
+} = process.env;
+
 export default function App() {
   useEffect(() => {
     const firebaseConfig = {
-      apiKey: 'AIzaSyB4AflN8j0b0vxcDErOdqev80NahbnJ2k8',
-      authDomain: 'manipulacao-833d1.firebaseapp.com',
-      databaseURL: 'https://manipulacao-833d1-default-rtdb.firebaseio.com',
-      projectId: 'manipulacao-833d1',
-      storageBucket: 'manipulacao-833d1.appspot.com',
-      messagingSenderId: '28791682199',
-      appId: '1:28791682199:web:23e5f7e3cd4b391e6565d2',
-      measurementId: 'G-YCYCCGVNH4',
+      apiKey: `${API_KEY}`,
+      authDomain: `${AUTH_DOMAIN}`,
+      databaseURL: `${DATABASE_URL}`,
+      projectId: `${PROJECT_ID}`,
+      storageBucket: `${STORAGE_BUCKET}`,
+      messagingSenderId: `${MESSAGING_SENDER}`,
+      appId: `${APP_ID}`,
+      measurementId: `${MEASURMENT_ID}`,
     };
 
     firebase.initializeApp(firebaseConfig);

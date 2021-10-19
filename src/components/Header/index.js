@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -11,16 +11,25 @@ export default function Header() {
   const { navigate } = useNavigation();
 
   const handleLogOut = useCallback(() => {
-    auth()
-      .signOut()
-      .then(() => {
-        const dataKey = '@medic:user';
-        AsyncStorage.removeItem(dataKey);
-        navigate('SignIn');
-      })
-      .catch(error => {
-        
-      });
+    Alert.alert('Logout', 'Deseja mesmo sair?', [
+      {
+        style: 'cancel',
+        text: 'Não',
+      },
+      {
+        style: 'destructive',
+        text: 'Sim',
+        onPress: () => {
+          auth()
+            .signOut()
+            .then(() => {
+              const dataKey = '@medic:user';
+              AsyncStorage.removeItem(dataKey);
+              navigate('SignIn');
+            });
+        },
+      },
+    ]);
   });
 
   return (
