@@ -28,7 +28,7 @@ import {
 } from './styles';
 
 const schema = Yup.object().shape({
-  email: Yup.string().required('E-mail é obrigatório'),
+  email: Yup.string().email().required('E-mail é obrigatório'),
   password: Yup.string().required('Senha é obrigatório'),
 });
 
@@ -48,7 +48,6 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // força que nossa validação siga um padrão
     resolver: yupResolver(schema),
   });
 
@@ -68,6 +67,8 @@ export default function SignIn() {
   }
 
   async function handleLogin(form) {
+    console.log(form);
+
     await auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
@@ -80,6 +81,7 @@ export default function SignIn() {
           .doc(user.uid)
           .get()
           .then(firestoreDocument => {
+            console.log('entrou aqui? ');
             if (!firestoreDocument.exists) {
               Alert.alert('User does not exist anymore.');
               return;
@@ -93,6 +95,7 @@ export default function SignIn() {
       })
       .catch(error => {
         setError(true);
+
         const errorCode = error.code;
 
         if (errorCode === 'auth/email-already-in-use') {
@@ -100,7 +103,19 @@ export default function SignIn() {
         }
 
         if (errorCode === 'auth/invalid-email') {
-          Alert.alert('Atenção', 'Esse e-mail é inválido');
+          Alert.alert('Atenção', 'E-mail incorreto');
+        }
+
+        if (errorCode === 'auth/wrong-password') {
+          Alert.alert('Atenção', 'Senha incorreta.');
+        }
+
+        if (errorCode === 'auth/user-not-found') {
+          Alert.alert('Atenção', 'Usuário não encontrado, tente novamente!');
+        }
+
+        if (errorCode === 'operation-not-allowed') {
+          Alert.alert('Atenção', 'Too many requests to log into this account.');
         }
       });
   }
@@ -141,9 +156,9 @@ export default function SignIn() {
             <InputForm
               name="password"
               placeholder="Senha"
+              control={control}
               secureTextEntry={true}
               autoCorrect={false}
-              control={control}
               error={errors.password && errors.password.message}
             />
 

@@ -6,20 +6,19 @@ import { ThemeProvider } from 'styled-components';
 
 import Routes from './routes';
 import theme from './global/styles/theme';
+import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <>
-        <StatusBar
-          backgroundColor="#f0f2f5"
-          translucent
-          barStyle="dark-content"
-        />
-        <ThemeProvider theme={theme}>
-          <Routes />
-        </ThemeProvider>
-      </>
-    </SafeAreaProvider>
+    <NavigationContainer>
+      <StatusBar
+        backgroundColor="#f0f2f5"
+        translucent
+        barStyle="dark-content"
+      />
+      <ThemeProvider theme={theme}>
+        <Routes />
+      </ThemeProvider>
+    </NavigationContainer>
   );
 }
