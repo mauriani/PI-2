@@ -40,5 +40,6 @@ export const SignUpButton = styled.TouchableOpacity`
 
 export const ButtonText = styled.Text`
   color: #845ec2;
-  font-size: 20px;
+  font-size: ${RFValue(15)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
 `;

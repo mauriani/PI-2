@@ -41,6 +41,7 @@ export const SignInButton = styled(BorderlessButton)`
 export const ButtonText = styled.Text`
   color: #845ec2;
   font-size: ${RFValue(15)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
 `;
 
 export const ForgotPasswordButton = styled(BorderlessButton)`

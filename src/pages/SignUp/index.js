@@ -70,7 +70,7 @@ const SignUp = () => {
   }
 
   function navigateToSignIn() {
-    navigate('SignIn');
+    navigation.navigate('SignIn');
   }
 
   return (
