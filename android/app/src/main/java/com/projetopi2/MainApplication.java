@@ -14,10 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 import com.facebook.react.bridge.JSIModulePackage;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage;
 
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
-import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+
 
 import java.util.List;
 
