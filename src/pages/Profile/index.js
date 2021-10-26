@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import AvatarSocial from 'react-native-avatar-social';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -32,16 +32,15 @@ export default function Profile() {
 
     const dados = JSON.parse(await AsyncStorage.getItem(dataKey));
 
-    setData(dados);
-
     if (dados.photo === '') {
       setPhotoProfile(`https://ui-avatars.com/api/?name=${dados.name}`);
     }
 
+    setData(dados);
     setLoading(true);
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getPerson();
   }, []);
 
@@ -63,7 +62,6 @@ export default function Profile() {
 
     launchImageLibrary(options, response => {
       const data = response.assets.map(item => {
-        console.log(item);
         return {
           uri: item.uri,
           type: item.type,
@@ -80,23 +78,20 @@ export default function Profile() {
         return;
       }
 
-      setImage(data[0].base64);
+      setImage(data[0].uri);
       uploadImage();
     });
   };
 
   const uploadImage = async () => {
     const uri = image;
+    const filename = uri.substring(uri.lastIndexOf('/') + 1);
+    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
 
-    await firestore()
-      .collection('users')
-      .doc(`${data.id}`)
-      .update({
-        photo: firestore.Blob.fromBase64String(uri),
-      })
-      .then(() => {
-        console.log('User added!');
-      });
+    console.log(uploadUri);
+
+    setUploading(true);
+    setTransferred(0);
   };
 
   return (

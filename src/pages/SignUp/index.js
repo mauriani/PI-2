@@ -45,6 +45,7 @@ const SignUp = () => {
           profession: form.profession,
           email: form.email,
           photo: '',
+          createdAt: firestore.FieldValue.serverTimestamp(),
         };
         const usersRef = firestore().collection('users');
 
