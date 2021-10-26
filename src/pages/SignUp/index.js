@@ -44,7 +44,6 @@ const SignUp = () => {
           name: form.name,
           profession: form.profession,
           email: form.email,
-          password: form.password,
           photo: '',
         };
         const usersRef = firestore().collection('users');

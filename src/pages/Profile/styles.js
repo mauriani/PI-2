@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { RectButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
@@ -16,15 +17,11 @@ export const ContainerProfile = styled.View`
   border-bottom-right-radius: 20px;
 `;
 
-export const Profile = styled.View`
+export const ProfilePhoto = styled.View`
   margin-top: ${getStatusBarHeight() + RFValue(15)}px;
 `;
 
-export const UserAvatar = styled.Image`
-  width: 186px;
-  height: 186px;
-  border-radius: 98px;
-
+export const UserAvatarButton = styled(RectButton)`
   align-self: center;
 `;
 

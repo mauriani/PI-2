@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Dashboard from '../pages/Dashboard';
 import Patients from '../pages/Patients';
-import User from '../pages/User';
+import Profile from '../pages/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +46,7 @@ export default function TabsNavigator() {
 
       <Tab.Screen
         name="Conta"
-        component={User}
+        component={Profile}
         options={{
           tabBarIcon: ({ size, color }) => (
             <Icon name="person" size={size} color={color} />

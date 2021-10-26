@@ -8,7 +8,6 @@ export default function DetailsPatient() {
   const route = useRoute();
 
   const { patientName, description, sickness } = route.params;
-  console.log(sickness.length);
 
   return (
     <Container>

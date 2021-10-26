@@ -67,8 +67,6 @@ export default function SignIn() {
   }
 
   async function handleLogin(form) {
-    console.log(form);
-
     await auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then(userCredential => {
@@ -81,14 +79,23 @@ export default function SignIn() {
           .doc(user.uid)
           .get()
           .then(firestoreDocument => {
-            console.log('entrou aqui? ');
             if (!firestoreDocument.exists) {
               Alert.alert('User does not exist anymore.');
               return;
             }
-            const user = firestoreDocument.data();
+            const userLogado = firestoreDocument.data();
 
-            AsyncStorage.setItem(dataKey, JSON.stringify(user));
+            console.log(userLogado);
+
+            const data = {
+              id: userLogado.id,
+              name: userLogado.name,
+              profession: userLogado.profession,
+              email: userLogado.email,
+              photo: userLogado.photo,
+            };
+
+            AsyncStorage.setItem(dataKey, JSON.stringify(data));
 
             navigation.navigate('Dashboard');
           });
