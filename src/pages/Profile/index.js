@@ -25,13 +25,15 @@ export default function Profile() {
 
   const [image, setImage] = useState(null);
 
+  const [imageName, setImageName] = useState('');
+
   useEffect(() => {
     getPerson();
   }, []);
 
   useLayoutEffect(() => {
     imageUserProfile();
-  }, [data]);
+  }, [data, imageName]);
 
   async function getPerson() {
     try {
@@ -39,6 +41,9 @@ export default function Profile() {
 
       const dados = JSON.parse(await AsyncStorage.getItem(dataKey));
 
+      const profile = 'profile' + data.id;
+
+      setImageName(profile);
       setData(dados);
     } catch (error) {
       console.log(error);
@@ -48,10 +53,8 @@ export default function Profile() {
   async function imageUserProfile() {
     setIsLoading(false);
     try {
-      const imageName = 'profile' + data.id;
-
       await storage()
-        .ref('/' + imageName) //name in storage in firebase console
+        .ref(imageName) //name in storage in firebase console
         .getDownloadURL()
         .then(url => {
           console.log(url);
