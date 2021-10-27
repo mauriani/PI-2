@@ -52,23 +52,27 @@ export default function Profile() {
 
   async function imageUserProfile() {
     setIsLoading(false);
-    try {
-      await storage()
-        .ref(imageName) //name in storage in firebase console
-        .getDownloadURL()
-        .then(url => {
-          console.log(url);
-          setPhotoProfile(url);
-        })
-        .catch(
-          e => console.log(e),
-          setPhotoProfile(`https://ui-avatars.com/api/?name=${data.name}`),
-        );
 
-      setIsLoading(true);
-    } catch (error) {
-      console.log(error);
-    }
+    const url = await storage().ref(imageName).getDownloadURL();
+
+    console.log(url);
+    // try {
+    //   await storage()
+    //     .ref(imageName) //name in storage in firebase console
+    //     .getDownloadURL()
+    //     .then(url => {
+    //       console.log(url);
+    //       setPhotoProfile(url);
+    //     })
+    //     .catch(
+    //       e => console.log(e),
+    //       setPhotoProfile(`https://ui-avatars.com/api/?name=${data.name}`),
+    //     );
+
+    //   setIsLoading(true);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   }
 
   const handleSelectPhoto = () => {
