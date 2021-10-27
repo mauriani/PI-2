@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
@@ -62,4 +63,8 @@ export const PatientsText = styled.Text`
   font-size: ${RFValue(13)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.text};
+`;
+
+export const RegisterIcon = styled(Feather)`
+  color: ${({ theme }) => theme.colors.primary};
 `;

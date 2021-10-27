@@ -7,6 +7,8 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import DetailsPatient from '../pages/DetailsPatient';
 import ForgotPassword from '../pages/ForgotPassword';
+import PatientsRegistration from '../pages/PatientsRegistration';
+import EditProfile from '../pages/EditProfile';
 
 const App = createStackNavigator();
 
@@ -21,6 +23,11 @@ export default function Routes() {
       <App.Screen name="Dashboard" component={TabsNavigator} />
       <App.Screen name="DetailsPatient" component={DetailsPatient} />
       <App.Screen name="ForgotPassword" component={ForgotPassword} />
+      <App.Screen
+        name="PatientsRegistration"
+        component={PatientsRegistration}
+      />
+      <App.Screen name="EditProfile" component={EditProfile} />
     </App.Navigator>
   );
 }

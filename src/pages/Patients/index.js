@@ -15,6 +15,7 @@ import {
   PatientsName,
   PatientsTextBold,
   PatientsText,
+  RegisterIcon,
 } from './styles';
 
 export default function Patients() {
@@ -83,6 +84,11 @@ export default function Patients() {
                 </Information>
               </Card>
             )}
+          />
+
+          <RegisterIcon
+            name="pluscircle"
+            onPress={navigate('PatientsResgistration')}
           />
         </Container>
       )}

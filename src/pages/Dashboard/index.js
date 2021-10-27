@@ -17,6 +17,8 @@ import {
 import Header from '../../components/Header';
 
 export default function Dashboard() {
+  const [date, setDate] = useState(new Date());
+  const [update, setUpdate] = useState();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
@@ -53,6 +55,16 @@ export default function Dashboard() {
       hour: hour,
     };
   });
+
+  async function handleNotification() {
+    const patients = await firestore().collection('patients').get();
+
+    const patient = patients.docs.map(doc => doc.data());
+  }
+
+  useEffect(() => {
+    handleNotification();
+  }, []);
 
   return (
     <Container>
