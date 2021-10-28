@@ -9,14 +9,14 @@ export const Container = styled.View`
   align-items: center;
   justify-content: center;
 
-  background-color: ${({ theme }) => theme.colors.shape};
+  background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const Title = styled.Text`
   font-size: ${RFValue(15)}px;
 
   font-family: ${({ theme }) => theme.fonts.medium};
-  color: ${({ theme }) => theme.colors.text_dark};
+  color: ${({ theme }) => theme.colors.shape};
 
   margin-top: ${RFValue(15)}px;
 `;

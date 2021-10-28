@@ -18,7 +18,6 @@ import Loading from '../../components/Loading';
 export default function Dashboard() {
   const [date, setDate] = useState(new Date());
   const [update, setUpdate] = useState();
-  const [loading, setLoading] = useState(false);
 
   const [data, setData] = useState([]);
   const [dataFormatted, setDataFormatted] = useState([]);
@@ -41,6 +40,7 @@ export default function Dashboard() {
     const data = snapshot.docs.map(doc => doc.data());
     setData(data);
     setDataPacient(data);
+    setIsLoading(true);
   }
 
   function getHours() {
@@ -79,10 +79,6 @@ export default function Dashboard() {
   }
 
   console.log(dataPacient);
-
-  // useEffect(() => {
-  //   handleNotification();
-  // }, []);
 
   return (
     <>

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
 import Header from '../../components/Header';
+import Loading from '../../components/Loading';
 
 import {
   Container,
@@ -44,7 +45,7 @@ export default function Patients() {
   return (
     <>
       {loading == false ? (
-        <ActivityIndicator size="large" color="#111111" />
+        <Loading title={'Carregando pacientes ...'} />
       ) : (
         <Container>
           <Header />

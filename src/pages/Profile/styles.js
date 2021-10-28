@@ -1,7 +1,8 @@
 import styled from 'styled-components/native';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { RectButton } from 'react-native-gesture-handler';
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+import Feather from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
   flex: 1;
@@ -52,4 +53,17 @@ export const InformationsSub = styled.Text`
   padding: 0 30px;
 
   margin-top: 10px;
+`;
+
+export const ContainerEdit = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+export const Button = styled(BorderlessButton)``;
+
+export const Icon = styled(Feather)`
+  font-size: ${RFValue(24)}px;
+  color: ${({ theme }) => theme.colors.shape};
 `;

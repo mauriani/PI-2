@@ -6,6 +6,8 @@ import { Container, Topo, Title, GoBackButton, Icon } from './styles';
 export default function HeaderGoBack(item) {
   const navigation = useNavigation();
 
+  console.log(item);
+
   return (
     <>
       <StatusBar

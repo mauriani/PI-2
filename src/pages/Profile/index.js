@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AvatarSocial from 'react-native-avatar-social';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +15,9 @@ import {
   Informations,
   InformationsText,
   InformationsSub,
+  ContainerEdit,
+  Button,
+  Icon,
 } from './styles';
 
 import Loading from '../../components/Loading';
@@ -26,6 +30,8 @@ export default function Profile() {
   const [image, setImage] = useState(null);
 
   const [imageName, setImageName] = useState('');
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     getPerson();
@@ -120,6 +126,8 @@ export default function Profile() {
     const imageName = 'profile' + data.id;
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
 
+    console.log(uploadUri);
+
     storage()
       .ref(imageName)
       .putFile(uploadUri)
@@ -132,6 +140,12 @@ export default function Profile() {
     setIsLoading(true);
   };
 
+  function handleNavigateToEditProfile() {
+    navigation.navigate('EditProfile', {
+      data,
+    });
+  }
+
   return (
     <>
       {isLoading === false ? (
@@ -140,7 +154,14 @@ export default function Profile() {
         <Container>
           <ContainerProfile>
             <ProfilePhoto>
-              <Title>Meu perfil</Title>
+              <ContainerEdit>
+                <Title>Meu perfil</Title>
+
+                <Button>
+                  <Icon name={'edit'} onPress={handleNavigateToEditProfile} />
+                </Button>
+              </ContainerEdit>
+
               <UserAvatarButton onPress={handleSelectPhoto}>
                 <AvatarSocial
                   dim={180}
