@@ -1,25 +1,25 @@
 import styled from 'styled-components/native';
+import { FlatList } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
   flex: 1;
+  height: 100%;
+  width: 100%;
+
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-export const Content = styled.View`
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-`;
-
 export const InformationsText = styled.Text`
-  padding: 0 10px;
+  padding: 0 16px;
   margin-top: 8px;
 
   font-size: ${RFValue(15)}px;
   font-family: ${({ theme }) => theme.fonts.regularRubik};
   color: ${({ theme }) => theme.colors.text};
+
+  margin-bottom: 8px;
 `;
 
 export const Card = styled.View`
@@ -59,4 +59,12 @@ export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.attention};
 
   margin-right: 20px;
+`;
+
+export const Scheduling = styled(FlatList).attrs({
+  contentContainerStyle: {
+    paddingBottom: 20,
+  },
+})`
+  padding: ${RFValue(15)}px;
 `;
