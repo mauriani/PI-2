@@ -53,9 +53,11 @@ export default function Profile() {
   async function imageUserProfile() {
     setIsLoading(false);
 
+    const image = 'profile' + data.id;
+
     try {
       await storage()
-        .ref(imageName) //name in storage in firebase console
+        .ref(image) //name in storage in firebase console
         .getDownloadURL()
         .then(url => {
           console.log('URL recebida: ' + url);
