@@ -17,6 +17,8 @@ target 'projetopi2' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'react-native-alarm-notification', :path => '../node_modules/react-native-alarm-notification'
+
   target 'projetopi2Tests' do
     inherit! :complete
     # Pods for testing

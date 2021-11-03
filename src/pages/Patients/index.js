@@ -89,7 +89,7 @@ export default function Patients() {
 
           <RegisterIcon
             name="pluscircle"
-            onPress={navigate('PatientsResgistration')}
+            onPress={() => navigate('PatientsRegistration')}
           />
         </Container>
       )}
