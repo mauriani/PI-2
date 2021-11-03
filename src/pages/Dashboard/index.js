@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { View } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
 
@@ -24,7 +25,6 @@ export default function Dashboard() {
   const [dateHour] = useState(new Date());
 
   const [currentTime, setCurrentTime] = useState();
-  const [update, setUpdate] = useState([]);
 
   useEffect(() => {
     getDados();
@@ -45,20 +45,20 @@ export default function Dashboard() {
 
   function getHours() {
     const formatted = data.map(item => {
-      const currentTime = dateHour.getHours();
-      const hourBreak = currentTime + 4;
-      let hour;
+      const currentTime = dateHour.getHours() + ':' + '00';
+      const hourBreak = dateHour.getHours() + 4 + ':' + '00';
+      let hours = [];
 
       for (const variavel in item.hours) {
         if (variavel >= currentTime && variavel <= hourBreak) {
-          hour = variavel;
+          hours.push(variavel);
         }
       }
 
       return {
         id: item.id,
         patientName: item.patientName,
-        hour: `${hour}:00`,
+        hours,
       };
     });
 
@@ -69,22 +69,20 @@ export default function Dashboard() {
     formatted.map(item => {
       const currentTime = dateHour.getHours() + ':' + '00';
 
-      const currentTimeFormatted =
-        currentTime >= 0 && currentTime < 10 ? `0${currentTime}` : currentTime;
-
-      console.log('c', currentTimeFormatted);
-      console.log(item.hour);
-
-      if (currentTimeFormatted == item.hour) {
-        console.log('entrei aqui');
-        alarm(item.hour, item.id, item.patientName);
+      for (var i = 0; i < item.hours.length; i++) {
+        if (item.hours[i] != undefined) {
+          if (currentTime == item.hours[i]) {
+            console.log(item.hours[i], item.patientName);
+            alarm(item.hours[i], item.patientName[i]);
+          }
+        }
       }
     });
 
     setIsLoading(true);
   }
 
-  async function alarm(hour, id, paciente) {
+  async function alarm(hour, patient) {
     const data = new Date();
     const dia =
       data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear();
@@ -93,26 +91,37 @@ export default function Dashboard() {
 
     const alarmNotifData = {
       title: 'Medic Alarme',
-      message: `Hora de aplicar medicação para o paciente ${paciente}`,
+      message: `Hora de aplicar medicação para o paciente ${patient}`,
       channel: 'wakeup',
       small_icon: 'ic_launcher',
+      vibrate: true,
+      play_sound: true,
       data: { content: 'my notification id is 22' },
     };
 
     // set alarm
-
-    const details = { ...alarmNotifData, fire_date: currentTime };
     console.log(`alarm set: ${currentTime}`);
 
     try {
-      const alarm = await ReactNativeAN.scheduleAlarm(details);
+      const alarm = await ReactNativeAN.scheduleAlarm({
+        ...alarmNotifData,
+        fire_date: currentTime,
+      });
 
-      if (alarm) {
-        setUpdate([
-          ...update,
-          { date: `alarm set: ${currentTime}`, id: alarm.id },
-        ]);
-      }
+      //Delete Scheduled Alarm
+      ReactNativeAN.deleteAlarm(alarm.id);
+
+      //Delete Repeating Alarm
+      ReactNativeAN.deleteRepeatingAlarm(alarm.id);
+
+      //Stop Alarm
+      ReactNativeAN.stopAlarmSound();
+
+      //Send Local Notification Now
+      ReactNativeAN.sendNotification(alarmNotifData);
+
+      //Clear Notification(s) From Notification Center/Tray
+      ReactNativeAN.removeFiredNotification(alarm.id);
     } catch (e) {
       console.log(e);
     }
@@ -130,6 +139,8 @@ export default function Dashboard() {
     setDataPacient(formatted);
   }
 
+  console.log(typeof dataFormatted);
+
   return (
     <>
       {isLoading === false ? (
@@ -142,26 +153,30 @@ export default function Dashboard() {
             Horários exibidos dentro do prazo de 4 horas.
           </InformationsText>
 
+          {Object.values(dataFormatted).map((item, key) => {
+            <Card key={key}>
+              <Title>{item.patientName}</Title>
+            </Card>;
+          })}
+
           <Scheduling
             data={dataFormatted}
             showsHorizontalScrollIndicator={false}
             keyExtractor={item => item.id}
-            renderItem={({ item }) =>
-              item.hour != undefined && (
-                <Card
-                  key={item.id}
-                  onPress={() => {
-                    ReactNativeAN.stopAlarmSound();
-                  }}
-                >
-                  <Title>{item.patientName}</Title>
-                  <ContainerHour>
-                    <SubTitle>{item.hour}</SubTitle>
-                    <Icon name="bell" />
-                  </ContainerHour>
-                </Card>
-              )
-            }
+            renderItem={({ item }) => (
+              <Card
+                key={item.id}
+                onPress={() => {
+                  ReactNativeAN.stopAlarmSound();
+                }}
+              >
+                <Title>{item.patientName}</Title>
+                <ContainerHour>
+                  <SubTitle>{item.hour}</SubTitle>
+                  <Icon name="bell" />
+                </ContainerHour>
+              </Card>
+            )}
           />
         </Container>
       )}
