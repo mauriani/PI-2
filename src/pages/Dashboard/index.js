@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView, BackHandler } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
+
+import moment from 'moment';
 
 import {
   Container,
   InformationsText,
   Card,
+  List,
   ContentDados,
   Title,
   ContainerHour,
@@ -26,6 +29,20 @@ export default function Dashboard() {
 
   const [currentTime] = useState(dateHour.getHours() + ':' + '00');
   const [hourBreak] = useState(dateHour.getHours() + 4 + ':' + '00');
+
+  const [time] = useState(
+    dateHour.getHours() +
+      ':' +
+      (dateHour.getMinutes() + 1).toString().padStart(2, '0'),
+  );
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => true,
+    );
+    return () => backHandler.remove();
+  }, []);
 
   useEffect(() => {
     loadPatientData();
@@ -59,7 +76,6 @@ export default function Dashboard() {
       };
     });
 
-    console.log(medication);
     setData(medication);
     setIsLoading(true);
   }
@@ -67,43 +83,44 @@ export default function Dashboard() {
   async function alarm(hour, patient) {
     const data = new Date();
     const dia =
-      data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear();
+      data.getDate().toString().padStart(2, '0') +
+      '-' +
+      (data.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      data.getFullYear();
 
-    let fireDate = `${dia} ${hour}:${data.getMinutes()}`;
+    let fireDate = `${dia} ${hour}:00`;
 
-    let currentTime =
-      dateHour.getHours() + ':' + data.getMinutes().toString().padStart(2, '0');
+    // const alarmNotifData = {
+    //   title: 'Medic Alarme',
+    //   message: `Hora de aplicar medicação para o paciente ${hour} ${patient}`,
+    //   channel: 'wakeup',
+    //   small_icon: 'ic_launcher',
+    //   vibrate: true,
+    //   play_sound: true,
+    //   data: { content: 'my notification id is 22' },
+    // };
 
-    const alarmNotifData = {
-      title: 'Medic Alarme',
-      message: `Hora de aplicar medicação para o paciente ${hour} ${patient}`,
-      channel: 'wakeup',
-      small_icon: 'ic_launcher',
-      vibrate: true,
-      play_sound: true,
-      data: { content: 'my notification id is 22' },
-    };
+    // if (hour != undefined) {
+    //   if (hour >= time) {
+    //     const alarm = await ReactNativeAN.scheduleAlarm({
+    //       ...alarmNotifData,
+    //       fire_date: fireDate,
+    //     });
 
-    if (hour == currentTime) {
-      try {
-        const alarm = await ReactNativeAN.scheduleAlarm({
-          ...alarmNotifData,
-          fire_date: fireDate,
-        });
-        //Delete Scheduled Alarm
-        ReactNativeAN.deleteAlarm(alarm.id);
-        //Delete Repeating Alarm
-        ReactNativeAN.deleteRepeatingAlarm(alarm.id);
-        //Stop Alarm
-        ReactNativeAN.stopAlarmSound();
-        //Send Local Notification Now
-        ReactNativeAN.sendNotification(alarmNotifData);
-        //Clear Notification(s) From Notification Center/Tray
-        ReactNativeAN.removeFiredNotification(alarm.id);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    //     //Delete Scheduled Alarm
+    //     ReactNativeAN.deleteAlarm(alarm.id);
+    //     //Delete Repeating Alarm
+    //     ReactNativeAN.deleteRepeatingAlarm(alarm.id);
+    //     //Stop Alarm
+    //     ReactNativeAN.stopAlarmSound();
+    //     //Send Local Notification Now
+    //     ReactNativeAN.sendNotification(alarmNotifData);
+    //     //Clear Notification(s) From Notification Center/Tray
+    //     ReactNativeAN.removeFiredNotification(alarm.id);
+    //     console.log(alarms);
+    //   }
+    // }
   }
 
   return (
@@ -120,31 +137,29 @@ export default function Dashboard() {
 
           <ScrollView showsHorizontalScrollIndicator={false}>
             {data.map((item, key) => (
-              <View style={String(key)} style={{ paddingHorizontal: 10 }}>
+              <List key={String(key)} style={{ paddingHorizontal: 10 }}>
                 {item.medications.map((medic, index) =>
                   medic.hour != undefined &&
                   medic.hour >= currentTime &&
                   medic.hour <= hourBreak ? (
-                    <>
-                      <Card
-                        style={String(index)}
-                        onPress={ReactNativeAN.stopAlarmSound()}
-                      >
-                        <ContentDados>
-                          <Title>{item.patientName}</Title>
-                          <TitleMedication>
-                            Medicação {medic.medication}
-                          </TitleMedication>
-                        </ContentDados>
+                    <Card
+                      key={medic.hour}
+                      onPress={ReactNativeAN.stopAlarmSound()}
+                    >
+                      <ContentDados>
+                        <Title>{item.patientName}</Title>
+                        <TitleMedication>
+                          Medicação {medic.medication}
+                        </TitleMedication>
+                      </ContentDados>
 
-                        <ContainerHour>
-                          <SubTitle>{medic.hour}</SubTitle>
-                        </ContainerHour>
-                      </Card>
-                    </>
+                      <ContainerHour>
+                        <SubTitle>{medic.hour}</SubTitle>
+                      </ContainerHour>
+                    </Card>
                   ) : null,
                 )}
-              </View>
+              </List>
             ))}
           </ScrollView>
         </Container>

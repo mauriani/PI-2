@@ -5,8 +5,9 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
+
 import { useForm } from 'react-hook-form';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth, { firebase } from '@react-native-firebase/auth';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -97,7 +98,7 @@ export default function SignIn() {
 
             AsyncStorage.setItem(dataKey, JSON.stringify(data));
 
-            navigation.navigate('Dashboard');
+            navigation.dispatch(StackActions.replace('Dashboard'));
           });
       })
       .catch(error => {

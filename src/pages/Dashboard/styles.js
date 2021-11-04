@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -22,7 +22,9 @@ export const InformationsText = styled.Text`
   margin-bottom: 8px;
 `;
 
-export const Card = styled.TouchableOpacity`
+export const List = styled.View``;
+
+export const Card = styled(TouchableOpacity)`
   flex-direction: row;
   justify-content: space-between;
 
