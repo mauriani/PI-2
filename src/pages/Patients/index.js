@@ -44,10 +44,6 @@ export default function Patients() {
     navigate('DetailsPatient', { patientName, description, sickness });
   }
 
-  function handleNavigateToPatientsResgistration() {
-    navigation.navigate('PatientsRegistration');
-  }
-
   return (
     <>
       <Container>
@@ -92,8 +88,8 @@ export default function Patients() {
 
         <RegisterButton>
           <RegisterIcon
-            name="plus-circle"
-            onPress={handleNavigateToPatientsResgistration}
+            name="pluscircle"
+            onPress={() => navigate('PatientsRegistration')}
           />
         </RegisterButton>
       </Container>
