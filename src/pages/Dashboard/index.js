@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
@@ -31,6 +31,10 @@ export default function Dashboard() {
     loadPatientData();
   }, []);
 
+  useEffect(() => {
+    alarm();
+  }, [dateHour.getMinutes(), dateHour.getHours()]);
+
   async function loadPatientData() {
     const snapshot = await firestore().collection('patients').get();
     const data = snapshot.docs.map(doc => doc.data());
@@ -38,10 +42,10 @@ export default function Dashboard() {
     const medication = Object.values(data).map((item, key) => {
       const medications = Object.keys(item.medication).map(
         (medication, index) => {
-          currentTime == medication && alarm(medication, item.patientName);
+          alarm(medication, item.patientName);
 
           return {
-            index: index,
+            index: String(index),
             hour: medication,
             medication: item.medication[medication].medication,
           };
@@ -60,7 +64,47 @@ export default function Dashboard() {
     setIsLoading(true);
   }
 
-  function alarm(medication, patientName) {}
+  async function alarm(hour, patient) {
+    const data = new Date();
+    const dia =
+      data.getDate() + '-' + (data.getMonth() + 1) + '-' + data.getFullYear();
+
+    let fireDate = `${dia} ${hour}:${data.getMinutes()}`;
+
+    let currentTime =
+      dateHour.getHours() + ':' + data.getMinutes().toString().padStart(2, '0');
+
+    const alarmNotifData = {
+      title: 'Medic Alarme',
+      message: `Hora de aplicar medicação para o paciente ${hour} ${patient}`,
+      channel: 'wakeup',
+      small_icon: 'ic_launcher',
+      vibrate: true,
+      play_sound: true,
+      data: { content: 'my notification id is 22' },
+    };
+
+    if (hour == currentTime) {
+      try {
+        const alarm = await ReactNativeAN.scheduleAlarm({
+          ...alarmNotifData,
+          fire_date: fireDate,
+        });
+        //Delete Scheduled Alarm
+        ReactNativeAN.deleteAlarm(alarm.id);
+        //Delete Repeating Alarm
+        ReactNativeAN.deleteRepeatingAlarm(alarm.id);
+        //Stop Alarm
+        ReactNativeAN.stopAlarmSound();
+        //Send Local Notification Now
+        ReactNativeAN.sendNotification(alarmNotifData);
+        //Clear Notification(s) From Notification Center/Tray
+        ReactNativeAN.removeFiredNotification(alarm.id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  }
 
   return (
     <>
@@ -76,13 +120,16 @@ export default function Dashboard() {
 
           <ScrollView showsHorizontalScrollIndicator={false}>
             {data.map((item, key) => (
-              <View style={key} style={{ paddingHorizontal: 10 }}>
+              <View style={String(key)} style={{ paddingHorizontal: 10 }}>
                 {item.medications.map((medic, index) =>
                   medic.hour != undefined &&
                   medic.hour >= currentTime &&
                   medic.hour <= hourBreak ? (
                     <>
-                      <Card key={index}>
+                      <Card
+                        style={String(index)}
+                        onPress={ReactNativeAN.stopAlarmSound()}
+                      >
                         <ContentDados>
                           <Title>{item.patientName}</Title>
                           <TitleMedication>
