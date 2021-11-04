@@ -7,11 +7,11 @@ import { Container, Title, Information, InformationsText } from './styles';
 export default function DetailsPatient() {
   const route = useRoute();
 
-  const { patientName, description, sickness } = route.params;
+  const { patientName, age, description, sickness, medicine } = route.params;
 
   return (
     <Container>
-      <HeaderGoBack title={patientName} />
+      <HeaderGoBack title={(patientName, age)} />
       <Information>
         <Title>Descrição</Title>
         <InformationsText>{description} </InformationsText>
@@ -25,6 +25,11 @@ export default function DetailsPatient() {
               <InformationsText>- {item}</InformationsText>
             </Fragment>
           ))}
+      </Information>
+
+      <Information>
+        <Title>Remédios</Title>
+        <InformationsText>{medicine}</InformationsText>
       </Information>
     </Container>
   );

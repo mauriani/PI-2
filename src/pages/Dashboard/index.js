@@ -68,10 +68,13 @@ export default function Dashboard() {
 
   async function handleNotification() {
     const formatted = dataPacient.map(item => {
+      const created = item.createdAt.getDay();
+      const firstUpdate = created + 15;
+
+      setUpdate(firstUpdate);
+
       return {
-        id: item.id,
-        patientName: item.patientName,
-        hour: item.createdAt,
+        updatedAt: item.update,
       };
     });
 

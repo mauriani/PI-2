@@ -16,13 +16,15 @@ import {
   PatientsName,
   PatientsTextBold,
   PatientsText,
+  RegisterButton,
   RegisterIcon,
 } from './styles';
 
 export default function Patients() {
   const [loading, setLoading] = useState(false);
-  const { navigate } = useNavigation();
   const [data, setData] = useState([]);
+
+  const navigation = useNavigation();
 
   async function getDados() {
     setLoading(false);
@@ -42,57 +44,59 @@ export default function Patients() {
     navigate('DetailsPatient', { patientName, description, sickness });
   }
 
+  function handleNavigateToPatientsResgistration() {
+    navigation.navigate('PatientsRegistration');
+  }
+
   return (
     <>
-      {loading == false ? (
-        <Loading title={'Carregando pacientes ...'} />
-      ) : (
-        <Container>
-          <Header />
-          <Title>Pacientes</Title>
-          <FlatList
-            data={data}
-            keyExtractor={item => item.id}
-            showsVerticalScrollIndicator={false}
-            style={{ flex: 1 }}
-            renderItem={({ item }) => (
-              <Card
-                onPress={() =>
-                  handleNavigate(
-                    item.patientName,
-                    item.description,
-                    item.sickness,
-                  )
-                }
-                key={item.id}
-              >
-                <CardPattients>
-                  <UserAvatar
-                    source={{
-                      uri: `${item.photo}`,
-                    }}
-                  />
-                </CardPattients>
+      <Container>
+        <Header />
+        <Title>Pacientes</Title>
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          style={{ flex: 1 }}
+          renderItem={({ item }) => (
+            <Card
+              onPress={() =>
+                handleNavigate(
+                  item.patientName,
+                  item.description,
+                  item.sickness,
+                )
+              }
+              key={item.id}
+            >
+              <CardPattients>
+                <UserAvatar
+                  source={{
+                    uri: `${item.photo}`,
+                  }}
+                />
+              </CardPattients>
 
-                <Information>
-                  <PatientsName>{item.patientName}</PatientsName>
-                  <PatientsText>
-                    <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
-                  </PatientsText>
-                  <PatientsText>
-                    <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
-                  </PatientsText>
-                </Information>
-              </Card>
-            )}
-          />
+              <Information>
+                <PatientsName>{item.patientName}</PatientsName>
+                <PatientsText>
+                  <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
+                </PatientsText>
+                <PatientsText>
+                  <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
+                </PatientsText>
+              </Information>
+            </Card>
+          )}
+        />
 
+        <RegisterButton>
           <RegisterIcon
-            name="pluscircle"
-            onPress={navigate('PatientsResgistration')}
+            name="plus-circle"
+            onPress={handleNavigateToPatientsResgistration}
           />
-        </Container>
-      )}
+        </RegisterButton>
+      </Container>
     </>
   );
 }

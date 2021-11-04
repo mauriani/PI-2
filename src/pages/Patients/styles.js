@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
   flex: 1;
@@ -65,6 +66,12 @@ export const PatientsText = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+export const RegisterButton = styled(BorderlessButton)`
+  padding-bottom: ${RFValue(15)}px;
+  align-items: center;
+`;
+
 export const RegisterIcon = styled(Feather)`
+  font-size: ${RFValue(50)}px;
   color: ${({ theme }) => theme.colors.primary};
 `;
