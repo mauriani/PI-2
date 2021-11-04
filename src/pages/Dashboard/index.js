@@ -60,9 +60,7 @@ export default function Dashboard() {
     setIsLoading(true);
   }
 
-  function alarm(medication, patientName) {
-    
-  }
+  function alarm(medication, patientName) {}
 
   return (
     <>

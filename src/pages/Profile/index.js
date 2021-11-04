@@ -1,15 +1,10 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  useCallback,
-} from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AvatarSocial from 'react-native-avatar-social';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import storage, { getStorage } from '@react-native-firebase/storage';
+import storage from '@react-native-firebase/storage';
 
 import {
   Container,
@@ -40,11 +35,8 @@ export default function Profile() {
 
   useEffect(() => {
     getPerson();
-  }, []);
-
-  useLayoutEffect(() => {
     imageUserProfile();
-  }, [data, imageName]);
+  }, []);
 
   async function getPerson() {
     try {
@@ -52,23 +44,21 @@ export default function Profile() {
 
       const dados = JSON.parse(await AsyncStorage.getItem(dataKey));
 
-      const profile = 'profile' + data.id;
-
-      setImageName(profile);
       setData(dados);
+      setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
   }
 
   async function imageUserProfile() {
-    setIsLoading(false);
-
     const image = 'profile' + data.id;
+    let imageRef = storage().ref('/' + image);
+
+    // console.log(storage().ref('/' + imageName));
 
     try {
-      await storage()
-        .ref(image) //name in storage in firebase console
+      imageRef
         .getDownloadURL()
         .then(url => {
           console.log('URL recebida: ' + url);
@@ -85,85 +75,46 @@ export default function Profile() {
     }
   }
 
-  const handleUpdateAvatar = useCallback(() => {
-    launchImageLibrary(
-      {
-        title: 'Selecione um avatar',
-        cancelButtonTitle: 'Cancelar',
-        takePhotoButtonTitle: 'Usar camera',
-        chooseFromLibraryButtonTitle: 'Escolha da galeria',
-        quality: 1.0,
-        maxWidth: 500,
-        maxHeight: 500,
-      },
-      response => {
-        if (response.didCancel) {
-          return;
-        }
-        if (response.error) {
-          Alert.alert('Erro ao atualizar seu avatar');
-          return;
-        }
-
-        const uri = response.assets(item => {
-          return {
-            uri: item.uri,
-          };
-        });
-
-        console.log(uri);
-
-        // const data = new FormData();
-
-        // data.append('avatar', {
-        //   type: 'image/jpeg',
-        //   name: `${user.id}.jpg`,
-        //   uri: response.uri,
-        // });
-
-        // api.patch('/users/avatar', data).then(response => {
-        //   updateUser(response.data);
-        // });
-      },
-    );
-  }, []);
-
   const handleSelectPhoto = () => {
-    // const options = {
-    //   title: 'Selecione um avatar',
-    //   takePhotoButtonTitle: 'Usar camera',
-    //   chooseFromLibraryButtonTitle: 'Escolha da galeria',
-    //   cancelButtonTitle: 'Cancelar',
-    //   quality: 1.0,
-    //   maxWidth: 500,
-    //   maxHeight: 500,
-    //   mediaType: 'photo',
-    //   includeBase64: true,
-    //   storageOptions: {
-    //     skipBackup: true,
-    //   },
-    // };
-    // launchImageLibrary(options, response => {
-    //   const data = response.assets.map(item => {
-    //     return {
-    //       uri: item.uri,
-    //       type: item.type,
-    //       base64: item.base64,
-    //     };
-    //   });
-    //   if (response.didCancel) {
-    //     return;
-    //   }
-    //   if (response.error) {
-    //     Alert.alert('Erro ao atualizar seu avatar');
-    //     return;
-    //   }
-    //   setImage(data[0].uri);
-    //   uploadImage();
-    // });
+    const options = {
+      title: 'Selecione um avatar',
+      takePhotoButtonTitle: 'Usar camera',
+      chooseFromLibraryButtonTitle: 'Escolha da galeria',
+      cancelButtonTitle: 'Cancelar',
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      mediaType: 'photo',
+      includeBase64: true,
+      storageOptions: {
+        skipBackup: true,
+      },
+    };
+
+    launchImageLibrary(options, response => {
+      const data = response.assets.map(item => {
+        return {
+          uri: item.uri,
+          type: item.type,
+          base64: item.base64,
+        };
+      });
+
+      if (response.didCancel) {
+        return;
+      }
+
+      if (response.error) {
+        Alert.alert('Erro ao atualizar seu avatar');
+        return;
+      }
+
+      setImage(data[0].uri);
+      uploadImage(data[0].type);
+    });
   };
 
-  const uploadImage = async () => {
+  function uploadImage(type) {
     setIsLoading(false);
 
     const uri = image;
@@ -172,15 +123,15 @@ export default function Profile() {
 
     storage()
       .ref(imageName)
-      .putFile(uploadUri)
-      .then(snapshot => {
+      .putFile(uploadUri, { contentType: type })
+      .then(() => {
         Alert.alert('Sucesso', 'Avatar atualizado!');
-        getPerson();
+        imageUserProfile();
       })
       .catch(e => console.log('uploading image error => ', e));
 
     setIsLoading(true);
-  };
+  }
 
   function handleNavigateToEditProfile() {
     navigation.navigate('EditProfile', {
@@ -204,7 +155,7 @@ export default function Profile() {
                 </Button>
               </ContainerEdit>
 
-              <UserAvatarButton onPress={handleUpdateAvatar}>
+              <UserAvatarButton onPress={handleSelectPhoto}>
                 <AvatarSocial
                   dim={180}
                   image={{
