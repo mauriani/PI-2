@@ -1,10 +1,15 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AvatarSocial from 'react-native-avatar-social';
 import { launchImageLibrary } from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import storage from '@react-native-firebase/storage';
+import storage, { getStorage } from '@react-native-firebase/storage';
 
 import {
   Container,
@@ -80,43 +85,82 @@ export default function Profile() {
     }
   }
 
-  const handleSelectPhoto = () => {
-    const options = {
-      title: 'Selecione um avatar',
-      takePhotoButtonTitle: 'Usar camera',
-      chooseFromLibraryButtonTitle: 'Escolha da galeria',
-      cancelButtonTitle: 'Cancelar',
-      quality: 1.0,
-      maxWidth: 500,
-      maxHeight: 500,
-      mediaType: 'photo',
-      includeBase64: true,
-      storageOptions: {
-        skipBackup: true,
+  const handleUpdateAvatar = useCallback(() => {
+    launchImageLibrary(
+      {
+        title: 'Selecione um avatar',
+        cancelButtonTitle: 'Cancelar',
+        takePhotoButtonTitle: 'Usar camera',
+        chooseFromLibraryButtonTitle: 'Escolha da galeria',
+        quality: 1.0,
+        maxWidth: 500,
+        maxHeight: 500,
       },
-    };
+      response => {
+        if (response.didCancel) {
+          return;
+        }
+        if (response.error) {
+          Alert.alert('Erro ao atualizar seu avatar');
+          return;
+        }
 
-    launchImageLibrary(options, response => {
-      const data = response.assets.map(item => {
-        return {
-          uri: item.uri,
-          type: item.type,
-          base64: item.base64,
-        };
-      });
+        const uri = response.assets(item => {
+          return {
+            uri: item.uri,
+          };
+        });
 
-      if (response.didCancel) {
-        return;
-      }
+        console.log(uri);
 
-      if (response.error) {
-        Alert.alert('Erro ao atualizar seu avatar');
-        return;
-      }
+        // const data = new FormData();
 
-      setImage(data[0].uri);
-      uploadImage();
-    });
+        // data.append('avatar', {
+        //   type: 'image/jpeg',
+        //   name: `${user.id}.jpg`,
+        //   uri: response.uri,
+        // });
+
+        // api.patch('/users/avatar', data).then(response => {
+        //   updateUser(response.data);
+        // });
+      },
+    );
+  }, []);
+
+  const handleSelectPhoto = () => {
+    // const options = {
+    //   title: 'Selecione um avatar',
+    //   takePhotoButtonTitle: 'Usar camera',
+    //   chooseFromLibraryButtonTitle: 'Escolha da galeria',
+    //   cancelButtonTitle: 'Cancelar',
+    //   quality: 1.0,
+    //   maxWidth: 500,
+    //   maxHeight: 500,
+    //   mediaType: 'photo',
+    //   includeBase64: true,
+    //   storageOptions: {
+    //     skipBackup: true,
+    //   },
+    // };
+    // launchImageLibrary(options, response => {
+    //   const data = response.assets.map(item => {
+    //     return {
+    //       uri: item.uri,
+    //       type: item.type,
+    //       base64: item.base64,
+    //     };
+    //   });
+    //   if (response.didCancel) {
+    //     return;
+    //   }
+    //   if (response.error) {
+    //     Alert.alert('Erro ao atualizar seu avatar');
+    //     return;
+    //   }
+    //   setImage(data[0].uri);
+    //   uploadImage();
+    // });
   };
 
   const uploadImage = async () => {
@@ -125,8 +169,6 @@ export default function Profile() {
     const uri = image;
     const imageName = 'profile' + data.id;
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
-
-    console.log(uploadUri);
 
     storage()
       .ref(imageName)
@@ -162,7 +204,7 @@ export default function Profile() {
                 </Button>
               </ContainerEdit>
 
-              <UserAvatarButton onPress={handleSelectPhoto}>
+              <UserAvatarButton onPress={handleUpdateAvatar}>
                 <AvatarSocial
                   dim={180}
                   image={{
