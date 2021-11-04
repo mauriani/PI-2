@@ -35,11 +35,8 @@ export default function Profile() {
 
   useEffect(() => {
     getPerson();
-  }, []);
-
-  useLayoutEffect(() => {
     imageUserProfile();
-  }, [data, imageName]);
+  }, []);
 
   async function getPerson() {
     try {
@@ -47,23 +44,21 @@ export default function Profile() {
 
       const dados = JSON.parse(await AsyncStorage.getItem(dataKey));
 
-      const profile = 'profile' + data.id;
-
-      setImageName(profile);
       setData(dados);
+      setIsLoading(true);
     } catch (error) {
       console.log(error);
     }
   }
 
   async function imageUserProfile() {
-    setIsLoading(false);
-
     const image = 'profile' + data.id;
+    let imageRef = storage().ref('/' + image);
+
+    // console.log(storage().ref('/' + imageName));
 
     try {
-      await storage()
-        .ref(image) //name in storage in firebase console
+      imageRef
         .getDownloadURL()
         .then(url => {
           console.log('URL recebida: ' + url);
@@ -115,30 +110,28 @@ export default function Profile() {
       }
 
       setImage(data[0].uri);
-      uploadImage();
+      uploadImage(data[0].type);
     });
   };
 
-  const uploadImage = async () => {
+  function uploadImage(type) {
     setIsLoading(false);
 
     const uri = image;
     const imageName = 'profile' + data.id;
     const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
 
-    console.log(uploadUri);
-
     storage()
       .ref(imageName)
-      .putFile(uploadUri)
-      .then(snapshot => {
+      .putFile(uploadUri, { contentType: type })
+      .then(() => {
         Alert.alert('Sucesso', 'Avatar atualizado!');
-        getPerson();
+        imageUserProfile();
       })
       .catch(e => console.log('uploading image error => ', e));
 
     setIsLoading(true);
-  };
+  }
 
   function handleNavigateToEditProfile() {
     navigation.navigate('EditProfile', {
