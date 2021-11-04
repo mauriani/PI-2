@@ -44,32 +44,32 @@ export default function PatientsRegistration() {
   });
 
   async function handleSubmitPatientsRegistration(form) {
-    await firestore()
-      .add()
-      .then(userCredential => {
-        const patient = userCredential.id;
+    await firestore().add(userCredential => {
+      const patient = userCredential.id;
 
-        const data = {
-          id: patient.uid,
-          name: form.name,
-          description: form.description,
-          sickness: form.email,
-          medicine: form.medicine,
-          photo: '',
-          hour: form.hour,
-          createdAt: firestore.FieldValue.serverTimestamp(),
-          updatedAt: '',
-        };
-        const usersRef = firestore().collection('patients');
+      const data = {
+        id: patient.uid,
+        name: form.name,
+        description: form.description,
+        sickness: form.email,
+        medicine: form.medicine,
+        photo: '',
+        hour: form.hour,
+        createdAt: firestore.FieldValue.serverTimestamp(),
+        updatedAt: '',
+      };
 
-        usersRef
-          .doc(user.uid)
-          .set(data)
-          .then(() => {
-            navigation.navigate('Patients');
-          });
-      });
+      const usersRef = firestore().collection('patients');
+
+      usersRef
+        .doc(user.uid)
+        .set(data)
+        .then(() => {
+          navigation.navigate('Patients');
+        });
+    });
   }
+
   return (
     <Container>
       <Header>
