@@ -90,13 +90,7 @@ export default function Profile() {
     };
 
     launchImageLibrary(options, response => {
-      const data = response.assets.map(item => {
-        return {
-          uri: item.uri,
-          fileName: item.fileName,
-          type: item.type,
-        };
-      });
+      console.log('Response = ', response);
 
       if (response.didCancel) {
         return;
@@ -105,14 +99,21 @@ export default function Profile() {
       if (response.error) {
         Alert.alert('Erro ao atualizar seu avatar');
         return;
-      }
+      } else {
+        const data = response.assets.map(item => {
+          return {
+            uri: item.uri,
+            type: item.type,
+          };
+        });
 
-      const { uri, fileName, type } = data[0];
-      uploadImage(uri, fileName, type);
+        const { uri, type } = data[0];
+        uploadImage(uri, fileName, type);
+      }
     });
   };
 
-  async function uploadImage(uri, fileName, type) {
+  async function uploadImage(uri, type) {
     let imgUri = uri;
 
     const uploadUri =

@@ -88,7 +88,7 @@ export default function Patients() {
 
         <RegisterButton>
           <RegisterIcon
-            name="pluscircle"
+            name="plus-circle"
             onPress={() => navigate('PatientsRegistration')}
           />
         </RegisterButton>
