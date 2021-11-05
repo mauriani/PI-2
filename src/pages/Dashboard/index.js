@@ -27,6 +27,7 @@ export default function Dashboard() {
 
   const [currentTime, setCurrentTime] = useState();
   const [hourBreak, setHourBreak] = useState();
+  const [date, setDate] = useState('');
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -41,11 +42,20 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    const data = new Date();
+
     let hour = addZero(dateHour.getHours());
     let hourBreak = addZero(dateHour.getHours() + 4);
+    let date =
+      data.getDate().toString().padStart(2, '0') +
+      '-' +
+      (data.getMonth() + 1).toString().padStart(2, '0') +
+      '-' +
+      data.getFullYear();
 
     setHourBreak(hourBreak + ':' + '00');
     setCurrentTime(hour + ':' + '00');
+    setDate(date);
   }, []);
 
   function addZero(i) {
@@ -62,7 +72,11 @@ export default function Dashboard() {
     const medication = Object.values(data).map((item, key) => {
       const medications = Object.keys(item.medication).map(
         (medication, index) => {
-          alarm(medication, item.patientName);
+          alarm(
+            medication,
+            item.patientName,
+            item.medication[medication].medication,
+          );
 
           return {
             index: String(index),
@@ -83,17 +97,8 @@ export default function Dashboard() {
     setIsLoading(true);
   }
 
-  async function alarm(hour, patient) {
-    const data = new Date();
-
-    const dia =
-      data.getDate().toString().padStart(2, '0') +
-      '-' +
-      (data.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      data.getFullYear();
-
-    let fireDate = `${dia} ${hour}:00`;
+  async function alarm(hour, patient, medication) {
+    let fireDate = `${date} ${hour}:00`;
 
     let time =
       dateHour.getHours() +
@@ -101,20 +106,20 @@ export default function Dashboard() {
       (dateHour.getMinutes() + 1).toString().padStart(2, '0');
 
     // console.log(fireDate);
-    console.log(`${dia} ${time}:00`);
+    console.log(`${date} ${time}:00`);
 
     console.log(ReactNativeAN.parseDate(new Date(Date.now() + 1000)));
 
-    const alarmNotifData = {
-      title: 'Medic Alarme',
-      message: `Hora de aplicar medicação para o paciente ${patient}`,
-      channel: 'wakeup',
-      small_icon: 'ic_launcher',
-      vibrate: true,
-      play_sound: true,
-      data: { content: 'my notification id is 22' },
-      fire_date: fireDate,
-    };
+    // const alarmNotifData = {
+    //   title: 'Medic Alarme',
+    //   message: `Hora de aplicar medicação para o paciente ${patient}`,
+    //   channel: 'wakeup',
+    //   small_icon: 'ic_launcher',
+    //   vibrate: true,
+    //   play_sound: true,
+    //   data: { content: 'my notification id is 22' },
+    //   fire_date: fireDate,
+    // };
 
     // if (hour != undefined) {
     //   if (hour >= time) {

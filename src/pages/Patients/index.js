@@ -24,7 +24,7 @@ export default function Patients() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
 
-  const navigation = useNavigation();
+  const { navigate } = useNavigation();
 
   async function getDados() {
     setLoading(false);

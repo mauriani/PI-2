@@ -28,16 +28,14 @@ export default function Profile() {
   const [data, setData] = useState([]);
   const [photoProfile, setPhotoProfile] = useState('');
 
-  const [image, setImage] = useState(null);
-
-  const [imageName, setImageName] = useState('');
+  const { currentUser } = auth();
 
   const navigation = useNavigation();
 
   useEffect(() => {
     getPerson();
     imageUserProfile();
-  }, []);
+  }, [currentUser, setPhotoProfile]);
 
   async function getPerson() {
     try {
@@ -53,7 +51,7 @@ export default function Profile() {
   }
 
   async function imageUserProfile() {
-    const { currentUser } = auth();
+    setIsLoading(false);
 
     try {
       storage()
@@ -90,8 +88,6 @@ export default function Profile() {
     };
 
     launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
       if (response.didCancel) {
         return;
       }
@@ -118,8 +114,6 @@ export default function Profile() {
 
     const uploadUri =
       Platform.OS === 'ios' ? imgUri.replace('file://', '') : imgUri;
-
-    const { currentUser } = auth();
 
     storage()
       .ref(`/profile/${currentUser.uid}`)
