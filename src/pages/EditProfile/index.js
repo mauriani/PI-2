@@ -1,30 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import HeaderGoBack from '../../components/HeaderGoBack';
 
+import HeaderGoBack from '../../components/HeaderGoBack';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Content } from './styles';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { Alert } from 'react-native';
 
 export default function EditProfile() {
+  const [name, setName] = useState('');
+  const [profession, setProfession] = useState('');
+
   const title = 'Editar informações';
 
   const route = useRoute();
   const navigation = useNavigation();
   const { data } = route.params;
-
-  const [name, setName] = useState('');
-  const [profession, setProfession] = useState('');
-
-  useEffect(() => {
-    setProfession(data.profession);
-    setName(data.name);
-  }, []);
 
   function handleSave() {
     firestore()
@@ -41,6 +34,11 @@ export default function EditProfile() {
         navigation.goBack();
       });
   }
+
+  useEffect(() => {
+    setProfession(data.profession);
+    setName(data.name);
+  }, []);
 
   return (
     <Container>

@@ -16,7 +16,7 @@ export default function Routes() {
   return (
     <App.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName="SignIn"
+      initialRouteName="Patients"
     >
       <App.Screen name="SignIn" component={SignIn} />
       <App.Screen name="SignUp" component={SignUp} />

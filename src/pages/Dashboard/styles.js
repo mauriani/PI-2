@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -22,36 +22,57 @@ export const InformationsText = styled.Text`
   margin-bottom: 8px;
 `;
 
-export const Card = styled.TouchableOpacity`
+export const List = styled.View``;
+
+export const Card = styled(TouchableOpacity)`
+  flex-direction: row;
+  justify-content: space-between;
+
   height: ${RFValue(120)}px;
   width: 100%;
-  background: ${({ theme }) => theme.colors.shape};
 
+  background: ${({ theme }) => theme.colors.shape};
   border-radius: 10px;
 
   margin-top: 10px;
+  padding: 10px;
+`;
+
+export const ContentDados = styled.View`
+  flex-direction: column;
   justify-content: center;
+
+  width: 0px;
+  flex-grow: 1;
 `;
 
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
   color: ${({ theme }) => theme.colors.base};
-  padding: 0 16px;
+  padding: 0 10px;
+`;
+
+export const TitleMedication = styled.Text`
+  flex-shrink: 1;
+  font-size: ${RFValue(13)}px;
+
+  color: ${({ theme }) => theme.colors.attention};
+  font-family: ${({ theme }) => theme.fonts.medium};
+
+  padding: 0 10px;
+  margin-top: 5px;
 `;
 
 export const ContainerHour = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-
-  margin-top: 5px;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 export const SubTitle = styled.Text`
   font-size: ${RFValue(30)}px;
   color: ${({ theme }) => theme.colors.base};
-
+  padding: 0 10px;
   font-weight: 700;
-  padding: 0 16px;
 `;
 
 export const Icon = styled(Feather)`
@@ -59,12 +80,4 @@ export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.attention};
 
   margin-right: 20px;
-`;
-
-export const Scheduling = styled(FlatList).attrs({
-  contentContainerStyle: {
-    paddingBottom: 20,
-  },
-})`
-  padding: ${RFValue(15)}px;
 `;

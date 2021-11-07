@@ -1,4 +1,6 @@
 import { RFValue } from 'react-native-responsive-fontsize';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import styled from 'styled-components';
 
 export const Container = styled.View`
@@ -10,27 +12,28 @@ export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.primary};
   width: 100%;
   height: ${RFValue(150)}px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
 `;
 
 export const HeaderText = styled.Text`
-  color: red;
-  font-size: ${RFValue(15)}px;
+  color: ${({ theme }) => theme.colors.shape};
+  font-size: ${RFValue(23)}px;
   font-family: ${({ theme }) => theme.fonts.regular};
-  align-items: center;
-  justify-content: flex-end;
 `;
 
-export const Content = styled.View`
+export const Content = styled.ScrollView`
   width: 100%;
 `;
+export const GoBackButton = styled(BorderlessButton)`
+  justify-content: flex-start;
+`;
 
-export const InputName = styled.View``;
-
-export const InputDescription = styled.View``;
-
-export const InputDesease = styled.View``;
-
-export const InputMedicine = styled.View``;
+export const Icon = styled(Ionicons)`
+  font-size: ${RFValue(24)}px;
+  color: ${({ theme }) => theme.colors.shape};
+`;
