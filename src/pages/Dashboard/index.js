@@ -28,6 +28,7 @@ export default function Dashboard() {
   const [currentTime, setCurrentTime] = useState();
   const [hourBreak, setHourBreak] = useState();
   const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -38,8 +39,19 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    loadPatientData();
-  }, []);
+    const clock = setTimeout(() => {
+      const now = new Date().toLocaleTimeString('pt-BR', { hour12: false });
+      setTime(`${date} ${now}`);
+    }, 1000);
+
+    const interval = setTimeout(() => {
+      loadPatientData();
+    }, 1000);
+    return () => { 
+      clearTimeout(interval);
+      clearTimeout(clock);
+    };
+  }, [time]);
 
   useEffect(() => {
     const data = new Date();
@@ -72,7 +84,7 @@ export default function Dashboard() {
     const medication = Object.values(data).map((item, key) => {
       const medications = Object.keys(item.medication).map(
         (medication, index) => {
-          alarm(
+          checkAlarmClock(
             medication,
             item.patientName,
             item.medication[medication].medication,
@@ -97,48 +109,41 @@ export default function Dashboard() {
     setIsLoading(true);
   }
 
-  async function alarm(hour, patient, medication) {
+  async function checkAlarmClock(hour, patient, medication) {
     let fireDate = `${date} ${hour}:00`;
 
-    let time =
-      dateHour.getHours() +
-      ':' +
-      (dateHour.getMinutes() + 1).toString().padStart(2, '0');
+    console.log(fireDate == time);
 
-    // console.log(fireDate);
-    console.log(`${date} ${time}:00`);
+    if (fireDate != undefined) {
+      if (fireDate == time) {
+        console.log('entrei');
+        const alarmNotifData = {
+          title: 'Medic Alarme',
+          message: `Hora de aplicar medicação para o paciente ${patient}`,
+          channel: 'wakeup',
+          small_icon: 'ic_launcher',
+          vibrate: true,
+          play_sound: true,
+          data: { content: 'my notification id is 22' },
+          fire_date: fireDate,
+        };
 
-    console.log(ReactNativeAN.parseDate(new Date(Date.now() + 1000)));
+        const alarm = await ReactNativeAN.scheduleAlarm(alarmNotifData);
 
-    // const alarmNotifData = {
-    //   title: 'Medic Alarme',
-    //   message: `Hora de aplicar medicação para o paciente ${patient}`,
-    //   channel: 'wakeup',
-    //   small_icon: 'ic_launcher',
-    //   vibrate: true,
-    //   play_sound: true,
-    //   data: { content: 'my notification id is 22' },
-    //   fire_date: fireDate,
-    // };
-
-    // if (hour != undefined) {
-    //   if (hour >= time) {
-    //     const alarm = await ReactNativeAN.scheduleAlarm(alarmNotifData);
-    //     //Delete Scheduled Alarm
-    //     ReactNativeAN.deleteAlarm(alarm.id);
-    //     //Delete Repeating Alarm
-    //     ReactNativeAN.deleteRepeatingAlarm(alarm.id);
-    //     //Stop Alarm
-    //     ReactNativeAN.stopAlarmSound();
-    //     //Send Local Notification Now
-    //     ReactNativeAN.sendNotification(alarmNotifData);
-    //     //Clear Notification(s) From Notification Center/Tray
-    //     ReactNativeAN.removeFiredNotification(alarm.id);
-    //   }
-    // }
+        console.log(alarm);
+        // //Delete Scheduled Alarm
+        // ReactNativeAN.deleteAlarm(alarm.id);
+        // //Delete Repeating Alarm
+        // ReactNativeAN.deleteRepeatingAlarm(alarm.id);
+        // //Stop Alarm
+        // ReactNativeAN.stopAlarmSound();
+        // //Send Local Notification Now
+        // ReactNativeAN.sendNotification(alarmNotifData);
+        // //Clear Notification(s) From Notification Center/Tray
+        // ReactNativeAN.removeFiredNotification(alarm.id);
+      }
+    }
   }
-
-  console.log(data);
 
   return (
     <>
@@ -149,7 +154,7 @@ export default function Dashboard() {
           <Header />
 
           <InformationsText>
-            Horários exibidos dentro do prazo de 4 horas.
+            Horários exibidos dentro do prazo de 4 horas. {time}
           </InformationsText>
 
           <ScrollView
