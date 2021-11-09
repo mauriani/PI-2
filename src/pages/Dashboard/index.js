@@ -119,7 +119,7 @@ export default function Dashboard() {
 
           const alarmNotifData = {
             title: 'Medic Alarme',
-            message: `Hora de aplicar medicação para o paciente ${item.patientName}`,
+            message: `Medicação para ${item.patientName}`,
             channel: 'wakeup',
             small_icon: 'ic_launcher',
             vibrate: true,
