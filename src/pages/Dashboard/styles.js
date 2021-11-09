@@ -32,6 +32,7 @@ export const Card = styled(TouchableOpacity)`
   width: 100%;
 
   border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.shape};
 
   margin-top: 10px;
   padding: 10px;

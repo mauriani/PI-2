@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView, BackHandler, Alert } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
@@ -35,30 +35,35 @@ export default function Dashboard() {
   const [alarmActive, setAlarmActive] = useState('');
 
   useEffect(() => {
+    backHandlerRemove();
+    ConfigHourBreak();
+    loadPatientData();
+  }, []);
+
+  useEffect(() => {
+    setInterval(() => {
+      setTime(moment().format('HH:mm:ss'));
+    }, 1000);
+
+    checkAlarmClock();
+  }, [time]);
+
+  function backHandlerRemove() {
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       () => true,
     );
     return () => backHandler.remove();
-  }, []);
+  }
 
-  useEffect(() => {
-    const clock = setInterval(() => {
-      let hour = moment().format('h:mm');
-      setTime(hour);
-    }, 1000);
+  function addZero(i) {
+    if (i < 10) {
+      i = '0' + i;
+    }
+    return i;
+  }
 
-    const interval = setInterval(() => {
-      checkAlarmClock();
-    }, 10000);
-
-    return () => {
-      clearInterval(clock);
-      clearTimeout(interval);
-    };
-  }, [time]);
-
-  useEffect(() => {
+  function ConfigHourBreak() {
     const data = new Date();
 
     let hour = addZero(dateHour.getHours());
@@ -73,15 +78,6 @@ export default function Dashboard() {
     setHourBreak(hourBreak + ':' + '00');
     setCurrentTime(hour + ':' + '00');
     setDate(date);
-    loadPatientData();
-    checkAlarmClock();
-  }, []);
-
-  function addZero(i) {
-    if (i < 10) {
-      i = '0' + i;
-    }
-    return i;
   }
 
   async function loadPatientData() {
@@ -113,11 +109,12 @@ export default function Dashboard() {
   async function checkAlarmClock() {
     data.map(item => {
       item.medications.map(medic => {
-        if (`${medic.hour}` === time) {
-          const fireDate = ReactNativeAN.parseDate(new Date(Date.now() + 1000));
-
-          console.log(fireDate, 'fireDate');
+        if (time === `${medic.hour}:00`) {
+          console.log('time', time);
+          console.log(`teste ${medic.hour}:00`);
           setAlarmActive(item.id);
+
+          const fireDate = ReactNativeAN.parseDate(new Date(Date.now() + 1000));
 
           const alarmNotifData = {
             title: 'Medic Alarme',
@@ -126,30 +123,26 @@ export default function Dashboard() {
             small_icon: 'ic_launcher',
             vibrate: true,
             play_sound: true,
+            schedule_type: 'repeat',
+            repeat_interval: 'minutely',
             data: { content: 'my notification id is 22' },
             fire_date: fireDate,
           };
           method();
-
           async function method() {
             const alarm = await ReactNativeAN.scheduleAlarm(alarmNotifData);
-
             console.log('alarm', alarm);
-
-            const alarms = await ReactNativeAN.getScheduledAlarms();
-
-            console.log(alarms);
             //Delete Scheduled Alarm
             ReactNativeAN.deleteAlarm(alarm.id);
             //Delete Repeating Alarm
             ReactNativeAN.deleteRepeatingAlarm(alarm.id);
-            //Stop Alarm
-            ReactNativeAN.stopAlarmSound();
             //Send Local Notification Now
             ReactNativeAN.sendNotification(alarmNotifData);
             //Clear Notification(s) From Notification Center/Tray
             ReactNativeAN.removeFiredNotification(alarm.id);
           }
+        } else {
+          return;
         }
       });
     });
@@ -182,12 +175,10 @@ export default function Dashboard() {
                     <Card
                       key={medic.hour}
                       onPress={ReactNativeAN.stopAlarmSound()}
-                      style={{
-                        backgroundColor:
-                          alarmActive == item.id && `${medic.hour}` === time
-                            ? '#f1ecf8'
-                            : '#ffffff',
-                      }}
+                      // style={{
+                      //   backgroundColor:
+                      //     alarmActive == item.id ? 'blue' : '#ffffff',
+                      // }}
                       onPress={PushNotification.cancelLocalNotification()}
                     >
                       <ContentDados>
