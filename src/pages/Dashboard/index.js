@@ -110,8 +110,9 @@ export default function Dashboard() {
     data.map(item => {
       item.medications.map(medic => {
         if (time === `${medic.hour}:00`) {
-          console.log('time', time);
-          console.log(`teste ${medic.hour}:00`);
+          // console.log('time', time);
+          // console.log(`teste ${medic.hour}:00`);
+
           setAlarmActive(item.id);
 
           const fireDate = ReactNativeAN.parseDate(new Date(Date.now() + 1000));

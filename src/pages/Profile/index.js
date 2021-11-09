@@ -104,7 +104,7 @@ export default function Profile() {
         });
 
         const { uri, type } = data[0];
-        uploadImage(uri, fileName, type);
+        uploadImage(uri, type);
       }
     });
   };
