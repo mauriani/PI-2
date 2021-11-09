@@ -31,7 +31,6 @@ export const Card = styled(TouchableOpacity)`
   height: ${RFValue(120)}px;
   width: 100%;
 
-  background: ${({ theme }) => theme.colors.shape};
   border-radius: 10px;
 
   margin-top: 10px;
