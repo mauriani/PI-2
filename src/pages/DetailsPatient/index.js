@@ -11,7 +11,7 @@ export default function DetailsPatient() {
 
   return (
     <Container>
-      <HeaderGoBack title={(patientName, age)} />
+      <HeaderGoBack title={patientName} />
       <Information>
         <Title>Descrição</Title>
         <InformationsText>{description} </InformationsText>

@@ -3,6 +3,7 @@ import { Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AvatarSocial from 'react-native-avatar-social';
 import { launchImageLibrary } from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import storage from '@react-native-firebase/storage';
 
@@ -27,16 +28,14 @@ export default function Profile() {
   const [data, setData] = useState([]);
   const [photoProfile, setPhotoProfile] = useState('');
 
-  const [image, setImage] = useState(null);
-
-  const [imageName, setImageName] = useState('');
+  const { currentUser } = auth();
 
   const navigation = useNavigation();
 
   useEffect(() => {
     getPerson();
     imageUserProfile();
-  }, []);
+  }, [currentUser, setPhotoProfile]);
 
   async function getPerson() {
     try {
@@ -52,16 +51,13 @@ export default function Profile() {
   }
 
   async function imageUserProfile() {
-    const image = 'profile' + data.id;
-    let imageRef = storage().ref('/' + image);
-
-    // console.log(storage().ref('/' + imageName));
+    setIsLoading(false);
 
     try {
-      imageRef
+      storage()
+        .ref(`/profile/${currentUser.uid}`)
         .getDownloadURL()
         .then(url => {
-          console.log('URL recebida: ' + url);
           setPhotoProfile(url);
         })
         .catch(
@@ -92,14 +88,6 @@ export default function Profile() {
     };
 
     launchImageLibrary(options, response => {
-      const data = response.assets.map(item => {
-        return {
-          uri: item.uri,
-          type: item.type,
-          base64: item.base64,
-        };
-      });
-
       if (response.didCancel) {
         return;
       }
@@ -107,30 +95,34 @@ export default function Profile() {
       if (response.error) {
         Alert.alert('Erro ao atualizar seu avatar');
         return;
-      }
+      } else {
+        const data = response.assets.map(item => {
+          return {
+            uri: item.uri,
+            type: item.type,
+          };
+        });
 
-      setImage(data[0].uri);
-      uploadImage(data[0].type);
+        const { uri, type } = data[0];
+        uploadImage(uri, type);
+      }
     });
   };
 
-  function uploadImage(type) {
-    setIsLoading(false);
+  async function uploadImage(uri, type) {
+    let imgUri = uri;
 
-    const uri = image;
-    const imageName = 'profile' + data.id;
-    const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+    const uploadUri =
+      Platform.OS === 'ios' ? imgUri.replace('file://', '') : imgUri;
 
     storage()
-      .ref(imageName)
+      .ref(`/profile/${currentUser.uid}`)
       .putFile(uploadUri, { contentType: type })
       .then(() => {
         Alert.alert('Sucesso', 'Avatar atualizado!');
         imageUserProfile();
       })
       .catch(e => console.log('uploading image error => ', e));
-
-    setIsLoading(true);
   }
 
   function handleNavigateToEditProfile() {
@@ -150,8 +142,8 @@ export default function Profile() {
               <ContainerEdit>
                 <Title>Meu perfil</Title>
 
-                <Button>
-                  <Icon name={'edit'} onPress={handleNavigateToEditProfile} />
+                <Button onPress={handleNavigateToEditProfile}>
+                  <Icon name={'edit'} />
                 </Button>
               </ContainerEdit>
 

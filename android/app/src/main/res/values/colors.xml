@@ -2,4 +2,5 @@
 <resources>
     <color name="primary">#f0f2f5</color>
     <color name="splash">#BF3448</color>
+    <color name="white">#FFF</color>
 </resources>
