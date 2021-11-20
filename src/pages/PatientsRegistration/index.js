@@ -25,11 +25,12 @@ const schema = Yup.object().shape({
   profession: Yup.string(),
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
-  medication: Yup.string().required('Remédios são obrigatórios'),
-  hour: Yup.string().required('Horários são obrigatorios'),
 });
 
 export default function PatientsRegistration() {
+  const [medication, setMedication] = useState('');
+  const [hour, setHour] = useState('');
+
   const navigation = useNavigation();
 
   const {
@@ -42,22 +43,26 @@ export default function PatientsRegistration() {
 
   async function handleSubmitPatientsRegistration(form) {
     try {
+      const h = hour;
+      const med = [{ h: { medication: 'Alprazolam' } }];
+
       await firestore()
         .collection('patients')
         .add({
-          patientName: form.name,
-          age: form.age,
-          sex: form.sex,
-          profession: form.profession,
-          description: form.description,
-          sickness: form.sickness,
-          medication: [{ hour: { medication: '' } }],
+          patientName: 'Juliana',
+          age: '70',
+          sex: 'Feminino',
+          profession: 'aposentada',
+          description: 'sdadasdasdasd',
+          sickness: 'wadawdad',
+          medicine: 'dasdadas',
+          medication: [{ hour: { medication: 'Alprazolam' } }],
           photo: '',
           createdAt: firestore.FieldValue.serverTimestamp(),
           updatedAt: '',
         });
 
-      navigation.navigate('Patients');
+      navigation.goBack();
     } catch (err) {
       console.log(err);
     }
@@ -127,13 +132,13 @@ export default function PatientsRegistration() {
         <InputForm
           name="medication"
           placeholder="Medicação"
-          control={control}
-          error={errors.medicine && errors.medicine.message}
+          onChangeText={setMedication}
+          error={errors.medication && errors.medication.message}
         />
         <InputForm
           name="hour"
           placeholder="Horários"
-          control={control}
+          onChangeText={setHour}
           error={errors.hour && errors.hour.message}
         />
 
