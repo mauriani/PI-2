@@ -23,16 +23,11 @@ const schema = Yup.object().shape({
   age: Yup.string().required('Idade é obrigatória'),
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
-  medicine: Yup.string().required('Remédios são obrigatórios'),
+  medication: Yup.string().required('Remédios são obrigatórios'),
   hour: Yup.string().required('Horários são obrigatorios'),
 });
 
 export default function PatientsRegistration() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [sickness, setSickness] = useState(true);
-  const [medicine, setMecicine] = useState('');
-
   const navigation = useNavigation();
 
   const {
@@ -44,30 +39,26 @@ export default function PatientsRegistration() {
   });
 
   async function handleSubmitPatientsRegistration(form) {
-    await firestore().add(userCredential => {
-      const patient = userCredential.id;
-
-      const data = {
-        id: patient.uid,
-        name: form.name,
-        description: form.description,
-        sickness: form.email,
-        medicine: form.medicine,
-        photo: '',
-        hour: form.hour,
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        updatedAt: '',
-      };
-
-      const usersRef = firestore().collection('patients');
-
-      usersRef
-        .doc(user.uid)
-        .set(data)
-        .then(() => {
-          navigation.navigate('Patients');
+    try {
+      await firestore()
+        .collection('patients')
+        .add({
+          patientName: form.name,
+          age: form.age,
+          sex: form.sex,
+          profession: form.profession,
+          description: form.description,
+          sickness: form.sickness,
+          medication: [{ hour: { medication: '' } }],
+          photo: '',
+          createdAt: firestore.FieldValue.serverTimestamp(),
+          updatedAt: '',
         });
-    });
+
+      navigation.navigate('Patients');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -98,13 +89,13 @@ export default function PatientsRegistration() {
           error={errors.age && errors.age.message}
         />
         <InputForm
-          name="Gender"
+          name="Sex"
           placeholder="Gênero"
           control={control}
           autoCorrect
           autoCapitalize="words"
           returnKeyType="next"
-          error={errors.name && errors.name.message}
+          error={errors.sex && errors.sex.message}
         />
         <InputForm
           name="Profession"
@@ -132,8 +123,8 @@ export default function PatientsRegistration() {
           returnKeyType="next"
         />
         <InputForm
-          name="medicine"
-          placeholder="Remédios"
+          name="medication"
+          placeholder="Medicação"
           control={control}
           error={errors.medicine && errors.medicine.message}
         />
@@ -143,12 +134,12 @@ export default function PatientsRegistration() {
           control={control}
           error={errors.hour && errors.hour.message}
         />
-      </Content>
 
-      <Button
-        title="Salvar"
-        onPress={handleSubmit(handleSubmitPatientsRegistration)}
-      />
+        <Button
+          title="Salvar"
+          onPress={handleSubmit(handleSubmitPatientsRegistration)}
+        />
+      </Content>
     </Container>
   );
 }
