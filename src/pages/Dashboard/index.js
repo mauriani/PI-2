@@ -107,12 +107,8 @@ export default function Dashboard() {
   }
 
   async function checkAlarmClock() {
-    console.log('time', time);
-
     data.map(item => {
       item.medications.map(medic => {
-        console.log(`teste ${medic.hour}:00`);
-
         if (time === `${medic.hour}:00`) {
           setAlarmActive(item.id);
 

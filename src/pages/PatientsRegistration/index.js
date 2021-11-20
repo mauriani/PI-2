@@ -21,6 +21,8 @@ import {
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   age: Yup.string().required('Idade é obrigatória'),
+  sex: Yup.string(),
+  profession: Yup.string(),
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
   medication: Yup.string().required('Remédios são obrigatórios'),
