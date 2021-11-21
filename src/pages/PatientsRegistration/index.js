@@ -25,12 +25,11 @@ const schema = Yup.object().shape({
   profession: Yup.string(),
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
+  medicine: Yup.string(),
+  hour: Yup.string(),
 });
 
 export default function PatientsRegistration() {
-  const [medicine, setMedicine] = useState('');
-  const [hour, setHour] = useState('');
-
   const navigation = useNavigation();
 
   const {
@@ -43,18 +42,20 @@ export default function PatientsRegistration() {
 
   async function handleSubmitPatientsRegistration(form) {
     try {
-      await firestore().collection('patients').add({
-        patientName: form.name,
-        age: form.age,
-        sex: form.sex,
-        profession: form.profession,
-        description: form.description,
-        sickness: form.sickness,
-        medication: medicine,
-        photo: '',
-        createdAt: firestore.FieldValue.serverTimestamp(),
-        updatedAt: '',
-      });
+      await firestore()
+        .collection('patients')
+        .add({
+          patientName: form.name,
+          age: form.age,
+          sex: form.sex,
+          profession: form.profession,
+          description: form.description,
+          sickness: form.sickness,
+          medication: [{ hour: form.hour, value: { medicine: form.medicine } }],
+          photo: '',
+          createdAt: firestore.FieldValue.serverTimestamp(),
+          updatedAt: '',
+        });
 
       navigation.goBack();
     } catch (err) {
@@ -90,7 +91,7 @@ export default function PatientsRegistration() {
           error={errors.age && errors.age.message}
         />
         <InputForm
-          name="Sex"
+          name="sex"
           placeholder="Gênero"
           control={control}
           autoCorrect
@@ -99,7 +100,7 @@ export default function PatientsRegistration() {
           error={errors.sex && errors.sex.message}
         />
         <InputForm
-          name="Profession"
+          name="profession"
           placeholder="Profissão"
           control={control}
           autoCorrect
@@ -124,16 +125,16 @@ export default function PatientsRegistration() {
           returnKeyType="next"
         />
         <InputForm
-          name="medication"
+          name="medicineW"
           placeholder="Medicação"
-          control={medicine}
-          onChangeText={setMedicine}
+          control={control}
+          error={errors.medicine && errors.medicine.message}
         />
         <InputForm
           name="hour"
-          control={hour}
           placeholder="Horários"
-          onChangeText={setHour}
+          control={control}
+          error={errors.hour && errors.hour.message}
         />
 
         <Button
