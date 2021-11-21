@@ -28,7 +28,7 @@ const schema = Yup.object().shape({
 });
 
 export default function PatientsRegistration() {
-  const [medication, setMedication] = useState('');
+  const [medicine, setMedicine] = useState('');
   const [hour, setHour] = useState('');
 
   const navigation = useNavigation();
@@ -43,24 +43,18 @@ export default function PatientsRegistration() {
 
   async function handleSubmitPatientsRegistration(form) {
     try {
-      const h = hour;
-      const med = [{ h: { medication: 'Alprazolam' } }];
-
-      await firestore()
-        .collection('patients')
-        .add({
-          patientName: 'Juliana',
-          age: '70',
-          sex: 'Feminino',
-          profession: 'aposentada',
-          description: 'sdadasdasdasd',
-          sickness: 'wadawdad',
-          medicine: 'dasdadas',
-          medication: [{ hour: { medication: 'Alprazolam' } }],
-          photo: '',
-          createdAt: firestore.FieldValue.serverTimestamp(),
-          updatedAt: '',
-        });
+      await firestore().collection('patients').add({
+        patientName: form.name,
+        age: form.age,
+        sex: form.sex,
+        profession: form.profession,
+        description: form.description,
+        sickness: form.sickness,
+        medication: medicine,
+        photo: '',
+        createdAt: firestore.FieldValue.serverTimestamp(),
+        updatedAt: '',
+      });
 
       navigation.goBack();
     } catch (err) {
@@ -132,14 +126,14 @@ export default function PatientsRegistration() {
         <InputForm
           name="medication"
           placeholder="Medicação"
-          onChangeText={setMedication}
-          error={errors.medication && errors.medication.message}
+          control={medicine}
+          onChangeText={setMedicine}
         />
         <InputForm
           name="hour"
+          control={hour}
           placeholder="Horários"
           onChangeText={setHour}
-          error={errors.hour && errors.hour.message}
         />
 
         <Button

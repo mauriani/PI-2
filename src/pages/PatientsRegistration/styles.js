@@ -29,8 +29,8 @@ export const HeaderText = styled.Text`
 export const Content = styled.ScrollView`
   width: 100%;
   padding-bottom: 15px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 export const GoBackButton = styled(BorderlessButton)`
   justify-content: flex-start;
