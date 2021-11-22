@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, ActivityIndicator } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -88,12 +88,14 @@ export default function Patients() {
           )}
         />
 
-        <RegisterButton>
-          <RegisterIcon
-            name="plus-circle"
-            onPress={() => navigate('PatientsRegistration')}
-          />
-        </RegisterButton>
+        <View style={{ marginTop: 3 }}>
+          <RegisterButton rippleColor={'#845ec2'} exclusive={'#845ec2'}>
+            <RegisterIcon
+              name="plus-circle"
+              onPress={() => navigate('PatientsRegistration')}
+            />
+          </RegisterButton>
+        </View>
       </Container>
     </>
   );

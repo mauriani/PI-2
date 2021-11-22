@@ -1,6 +1,7 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import styled from 'styled-components';
 
 export const Container = styled.View`
@@ -12,12 +13,20 @@ export const Header = styled.View`
   background-color: ${({ theme }) => theme.colors.primary};
   width: 100%;
   height: ${RFValue(150)}px;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
 
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+`;
+
+export const Topo = styled.View`
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  margin-top: ${getStatusBarHeight() + RFValue(14)}px;
+
+  padding: 24px;
+  margin-bottom: 24px;
 `;
 
 export const HeaderText = styled.Text`

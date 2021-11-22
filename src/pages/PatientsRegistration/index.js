@@ -13,6 +13,7 @@ import Button from '../../components/Button';
 import {
   Container,
   Header,
+  Topo,
   HeaderText,
   Content,
   Icon,
@@ -75,10 +76,12 @@ export default function PatientsRegistration() {
   return (
     <Container>
       <Header>
-        <GoBackButton onPress={() => navigation.goBack()}>
-          <Icon name="arrow-back" />
-        </GoBackButton>
-        <HeaderText>Cadastro de paciente</HeaderText>
+        <Topo>
+          <GoBackButton onPress={() => navigation.goBack()}>
+            <Icon name="arrow-back" />
+          </GoBackButton>
+          <HeaderText>Cadastro de paciente</HeaderText>
+        </Topo>
       </Header>
 
       <Content>
