@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { FlatList, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
@@ -39,6 +40,12 @@ export default function Patients() {
   useEffect(() => {
     getDados();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDados();
+    }, []),
+  );
 
   function handleNavigate(patientName, description, sickness) {
     navigate('DetailsPatient', { patientName, description, sickness });

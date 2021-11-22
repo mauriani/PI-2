@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import uuid from "react-native-uuid";
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,7 +22,7 @@ import {
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   age: Yup.string().required('Idade é obrigatória'),
-  sex: Yup.string(),
+  sex: Yup.mixed().oneOf(['Masculino', 'Feminino']),
   profession: Yup.string(),
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
@@ -42,20 +43,28 @@ export default function PatientsRegistration() {
 
   async function handleSubmitPatientsRegistration(form) {
     try {
-      await firestore()
+      const docData = {
+        id: String(uuid.v4()),
+        patientName: form.name,
+        age: form.age,
+        sex: form.sex,
+        profession: form.profession,
+        description: form.description,
+        sickness: form.sickness,
+        photo: `https://ui-avatars.com/api/?name=${form.name}`,
+        medication: [
+          {
+            hour: form.hour,
+            medicine: form.medicine,
+          },
+        ],
+        createdAt: firestore.Timestamp.fromDate(new Date()).toDate(),
+        updatedAt: '',
+      };
+
+      await await firestore()
         .collection('patients')
-        .add({
-          patientName: form.name,
-          age: form.age,
-          sex: form.sex,
-          profession: form.profession,
-          description: form.description,
-          sickness: form.sickness,
-          medication: [{ hour: form.hour, value: { medicine: form.medicine } }],
-          photo: '',
-          createdAt: firestore.FieldValue.serverTimestamp(),
-          updatedAt: '',
-        });
+        .add(JSON.parse(JSON.stringify(docData)));
 
       navigation.goBack();
     } catch (err) {
@@ -125,7 +134,7 @@ export default function PatientsRegistration() {
           returnKeyType="next"
         />
         <InputForm
-          name="medicineW"
+          name="medicine"
           placeholder="Medicação"
           control={control}
           error={errors.medicine && errors.medicine.message}

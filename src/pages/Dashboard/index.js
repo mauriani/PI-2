@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { ScrollView, BackHandler, Alert } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
@@ -39,6 +40,12 @@ export default function Dashboard() {
     ConfigHourBreak();
     loadPatientData();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadPatientData();
+    }, []),
+  );
 
   useEffect(() => {
     setInterval(() => {
@@ -81,34 +88,42 @@ export default function Dashboard() {
   }
 
   async function loadPatientData() {
-    const snapshot = await firestore().collection('patients').get();
-    const data = snapshot.docs.map(doc => doc.data());
+    try {
+      const snapshot = await firestore().collection('patients').get();
+      const data = snapshot.docs.map(doc => doc.data());
 
-    const medication = Object.values(data).map((item, key) => {
-      const medications = Object.keys(item.medication).map(
-        (medication, index) => {
+      const myData = Object.entries(data).map(([key, value]) => {
+        const medic = Object.entries(value.medication).map(([index, item]) => {
           return {
             index: String(index),
-            hour: medication,
-            medication: item.medication[medication].medication,
+            hour: item.hour,
+            medication: item.medicine,
           };
-        },
-      );
+        });
 
-      return {
-        id: item.id,
-        patientName: item.patientName,
-        medications: medications,
-      };
-    });
+        return {
+          id: value.id,
+          patientName: value.patientName,
+          medications: medic,
+        };
+      });
 
-    setData(medication);
-    setIsLoading(true);
+      setData(myData);
+      setIsLoading(true);
+
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async function checkAlarmClock() {
+    // console.log('time', time);
+
     data.map(item => {
       item.medications.map(medic => {
+        //  console.log(`teste ${medic.hour}:00`);
+
         if (time === `${medic.hour}:00`) {
           setAlarmActive(item.id);
 
