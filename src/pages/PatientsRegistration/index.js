@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
-import uuid from "react-native-uuid";
+import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -50,7 +50,7 @@ export default function PatientsRegistration() {
         sex: form.sex,
         profession: form.profession,
         description: form.description,
-        sickness: form.sickness,
+        sickness: [form.sickness],
         photo: `https://ui-avatars.com/api/?name=${form.name}`,
         medication: [
           {
