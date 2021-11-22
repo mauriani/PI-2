@@ -47,7 +47,11 @@ export default function Patients() {
     }, []),
   );
 
-  function handleNavigate(patientName, description, sickness) {
+  function handleNavigate(item) {
+    console.log(item);
+    const { patientName, sickness, description, medication } = item;
+
+    // SEM CAMPO DE MEDICINE NO DETAILS
     navigate('DetailsPatient', { patientName, description, sickness });
   }
 
@@ -62,16 +66,7 @@ export default function Patients() {
           showsVerticalScrollIndicator={false}
           style={{ flex: 1 }}
           renderItem={({ item }) => (
-            <Card
-              onPress={() =>
-                handleNavigate(
-                  item.patientName,
-                  item.description,
-                  item.sickness,
-                )
-              }
-              key={item.id}
-            >
+            <Card onPress={() => handleNavigate(item)} key={item.id}>
               <CardPattients>
                 <UserAvatar
                   source={{

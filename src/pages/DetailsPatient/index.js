@@ -9,6 +9,8 @@ export default function DetailsPatient() {
 
   const { patientName, age, description, sickness, medicine } = route.params;
 
+  console.log(medicine);
+
   return (
     <Container>
       <HeaderGoBack title={patientName} />
