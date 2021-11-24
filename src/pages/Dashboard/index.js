@@ -110,8 +110,6 @@ export default function Dashboard() {
 
       setData(myData);
       setIsLoading(true);
-
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -144,7 +142,6 @@ export default function Dashboard() {
           method();
           async function method() {
             const alarm = await ReactNativeAN.scheduleAlarm(alarmNotifData);
-            console.log('alarm', alarm);
             //Delete Scheduled Alarm
             ReactNativeAN.deleteAlarm(alarm.id);
             //Delete Repeating Alarm

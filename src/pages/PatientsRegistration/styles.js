@@ -1,8 +1,8 @@
+import styled from 'styled-components';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
-import styled from 'styled-components';
 
 export const Container = styled.View`
   flex: 1;
@@ -40,6 +40,8 @@ export const Content = styled.ScrollView`
   padding-bottom: 15px;
   padding-left: 10px;
   padding-right: 10px;
+
+  margin-top: 10px;
 `;
 export const GoBackButton = styled(BorderlessButton)`
   justify-content: flex-start;

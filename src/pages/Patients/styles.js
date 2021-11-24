@@ -8,6 +8,12 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
+export const Content = styled.View`
+  height: ${RFValue(70)}px;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Title = styled.Text`
   font-size: 24px;
   font-family: ${({ theme }) => theme.fonts.medium};
@@ -67,7 +73,7 @@ export const PatientsText = styled.Text`
 `;
 
 export const RegisterButton = styled(BorderlessButton)`
-  padding-bottom: ${RFValue(15)}px;
+  justify-content: center;
   align-items: center;
 `;
 

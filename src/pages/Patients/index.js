@@ -9,6 +9,7 @@ import Loading from '../../components/Loading';
 
 import {
   Container,
+  Content,
   Title,
   Card,
   CardPattients,
@@ -60,6 +61,7 @@ export default function Patients() {
       <Container>
         <Header />
         <Title>Pacientes</Title>
+
         <FlatList
           data={data}
           keyExtractor={item => item.id}
@@ -88,14 +90,14 @@ export default function Patients() {
           )}
         />
 
-        <View style={{ marginTop: 3 }}>
-          <RegisterButton rippleColor={'#845ec2'} exclusive={'#845ec2'}>
+        <Content>
+          <RegisterButton rippleColor={'#a589d2'} exclusive={'#a589d2'}>
             <RegisterIcon
               name="plus-circle"
               onPress={() => navigate('PatientsRegistration')}
             />
           </RegisterButton>
-        </View>
+        </Content>
       </Container>
     </>
   );

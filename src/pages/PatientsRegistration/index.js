@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import { TextInputMask } from 'react-native-masked-text';
 import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
@@ -28,11 +30,13 @@ const schema = Yup.object().shape({
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
   medicine: Yup.string(),
-  hour: Yup.string(),
 });
 
 export default function PatientsRegistration() {
   const navigation = useNavigation();
+  const [cpf, setCpf] = useState('');
+  const [hour, setHour] = useState('');
+  const [listPatients, setListPatients] = useState([]);
 
   const {
     control,
@@ -42,20 +46,51 @@ export default function PatientsRegistration() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    getPatients();
+  }, []);
+
+  async function getPatients() {
+    const snapshot = await firestore().collection('patients').get();
+    const patients = snapshot.docs.map(doc => doc.data());
+
+    setListPatients(patients);
+  }
+
   async function handleSubmitPatientsRegistration(form) {
+    if (cpf == '') {
+      Alert.alert('Atenção', 'Informe o CPF do paciente para continuar.');
+      return;
+    }
+
+    if (hour == '') {
+      Alert.alert('Atenção', 'Informe o horário da medicação do paciente.');
+      return;
+    }
+
+    if (cpf != '') {
+      const exists = listPatients.filter(item => item.cpf == cpf);
+
+      if (exists) {
+        Alert.alert('Atenção', 'Paciente já cadastrado.');
+        return;
+      }
+    }
+
     try {
       const docData = {
         id: String(uuid.v4()),
         patientName: form.name,
+        cpf: cpf,
         age: form.age,
         sex: form.sex,
         profession: form.profession,
         description: form.description,
         sickness: [form.sickness],
-        photo: `https://ui-avatars.com/api/?name=${form.name}`,
+        photo: `https://ui-avatars.com/api/?background=ffffff&name=${form.name}`,
         medication: [
           {
-            hour: form.hour,
+            hour: hour,
             medicine: form.medicine,
           },
         ],
@@ -66,6 +101,8 @@ export default function PatientsRegistration() {
       await await firestore()
         .collection('patients')
         .add(JSON.parse(JSON.stringify(docData)));
+
+      Alert.alert('Sucesso', 'Paciente cadastrado');
 
       navigation.goBack();
     } catch (err) {
@@ -87,12 +124,22 @@ export default function PatientsRegistration() {
       <Content>
         <InputForm
           name="name"
-          placeholder="Nome"
+          placeholder="Nome completo"
           control={control}
           autoCorrect
           autoCapitalize="words"
           returnKeyType="next"
           error={errors.name && errors.name.message}
+        />
+
+        <TextInputMask
+          type={'cpf'}
+          placeholder={'CPF'}
+          style={[styles.input]}
+          value={cpf}
+          onChangeText={text => {
+            setCpf(text);
+          }}
         />
         <InputForm
           name="age"
@@ -142,11 +189,18 @@ export default function PatientsRegistration() {
           control={control}
           error={errors.medicine && errors.medicine.message}
         />
-        <InputForm
-          name="hour"
-          placeholder="Horários"
-          control={control}
-          error={errors.hour && errors.hour.message}
+
+        <TextInputMask
+          type={'datetime'}
+          options={{
+            format: 'HH:mm',
+          }}
+          placeholder={'Horário da medicação'}
+          style={[styles.input]}
+          value={hour}
+          onChangeText={text => {
+            setHour(text);
+          }}
         />
 
         <Button
@@ -157,3 +211,16 @@ export default function PatientsRegistration() {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: '#ffffff',
+    height: 62,
+    borderRadius: 30,
+    color: '#363f5f',
+    fontSize: 17,
+    marginBottom: 10,
+    fontFamily: 'RobotoSlab-Medium',
+    padding: 20,
+  },
+});
