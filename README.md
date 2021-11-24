@@ -27,7 +27,7 @@ git clone https://github.com/mauriani/PI-2.git
 // Instalação de depêndencias, abra o terminal com o caminho dá aplicação e rode o comando
 yarn or npm install
 
-// executando, rode o comando a baixo e scab
+// Para executar
 yarn android |ios
 
 ```
