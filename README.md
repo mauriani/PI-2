@@ -7,7 +7,7 @@ Esse projeto foi desenvolvido durante a disciplina de PI 2 (Projeto integrador).
 - Firebase
 - React native
 
-## 🪲 Funcionalidades
+## 🍀 Funcionalidades
 
 - Cadastro de usuário;
 - Cadastro de paciente;
