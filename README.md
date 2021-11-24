@@ -1,5 +1,5 @@
 # Medic
-<img src="https://user-images.githubusercontent.com/32397288/143300733-8af32555-f2c7-4ac7-9e26-cf526a5eb439.jpeg" width="150"> | <img src="[https://user-images.githubusercontent.com/32397288/82909243-62595880-9f3f-11ea-934c-daaf24a0676d.jpeg](https://user-images.githubusercontent.com/32397288/137335869-2f040d39-0b42-4cd0-aa95-dfd2ff23bbaa.jpeg)" width="150"> | <img src="([https://user-images.githubusercontent.com/32397288/137335946-bfcf96e8-1fd2-402d-8666-ae0395abc676.jpeg](https://user-images.githubusercontent.com/32397288/137335946-bfcf96e8-1fd2-402d-8666-ae0395abc676.jpeg)" width="150"> | <img src="[https://user-images.githubusercontent.com/32397288/83290146-8d041500-a1bc-11ea-9703-bba25ceb2d98.jpeg](https://user-images.githubusercontent.com/32397288/137336048-61e89817-3fd0-400d-983c-77564c488d46.jpeg)" width="150">
+<img src="https://user-images.githubusercontent.com/32397288/143300733-8af32555-f2c7-4ac7-9e26-cf526a5eb439.jpeg" width="170"> | <img src="https://user-images.githubusercontent.com/32397288/143300857-e6c3ccdd-a095-4159-b905-e152b63b6964.jpeg" width="170"> | <img src="https://user-images.githubusercontent.com/32397288/143300925-1cf73110-8963-4951-90f9-c452652aff74.jpeg" width="170">
 
 ## 🚀 Sobre o projeto
 
