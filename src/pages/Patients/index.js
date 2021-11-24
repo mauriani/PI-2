@@ -58,47 +58,52 @@ export default function Patients() {
 
   return (
     <>
-      <Container>
-        <Header />
-        <Title>Pacientes</Title>
+      {loading === true ? (
+        <>
+          <Container>
+            <Header />
+            <Title>Pacientes</Title>
+            <FlatList
+              data={data}
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
+              style={{ flex: 1 }}
+              renderItem={({ item }) => (
+                <Card onPress={() => handleNavigate(item)} key={item.id}>
+                  <CardPattients>
+                    <UserAvatar
+                      source={{
+                        uri: `${item.photo}`,
+                      }}
+                    />
+                  </CardPattients>
 
-        <FlatList
-          data={data}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          style={{ flex: 1 }}
-          renderItem={({ item }) => (
-            <Card onPress={() => handleNavigate(item)} key={item.id}>
-              <CardPattients>
-                <UserAvatar
-                  source={{
-                    uri: `${item.photo}`,
-                  }}
-                />
-              </CardPattients>
-
-              <Information>
-                <PatientsName>{item.patientName}</PatientsName>
-                <PatientsText>
-                  <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
-                </PatientsText>
-                <PatientsText>
-                  <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
-                </PatientsText>
-              </Information>
-            </Card>
-          )}
-        />
-
-        <Content>
-          <RegisterButton rippleColor={'#a589d2'} exclusive={'#a589d2'}>
-            <RegisterIcon
-              name="plus-circle"
-              onPress={() => navigate('PatientsRegistration')}
+                  <Information>
+                    <PatientsName>{item.patientName}</PatientsName>
+                    <PatientsText>
+                      <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
+                    </PatientsText>
+                    <PatientsText>
+                      <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
+                    </PatientsText>
+                  </Information>
+                </Card>
+              )}
             />
-          </RegisterButton>
-        </Content>
-      </Container>
+
+            <Content>
+              <RegisterButton rippleColor={'#a589d2'} exclusive={'#a589d2'}>
+                <RegisterIcon
+                  name="plus-circle"
+                  onPress={() => navigate('PatientsRegistration')}
+                />
+              </RegisterButton>
+            </Content>
+          </Container>
+        </>
+      ) : (
+        <Loading title={'Carregando'} />
+      )}
     </>
   );
 }
