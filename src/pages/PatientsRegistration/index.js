@@ -69,14 +69,13 @@ export default function PatientsRegistration() {
     }
 
     if (cpf != '') {
-      const exists = listPatients.filter(item => item.cpf == cpf);
+      const value = listPatients.find(elem => elem.cpf === cpf);
 
-      if (exists) {
-        Alert.alert('Atenção', 'Paciente já cadastrado.');
+      if (value) {
+        Alert.alert('Atenção', 'Esse CPF já foi cadastrado.');
         return;
       }
     }
-
     try {
       const docData = {
         id: String(uuid.v4()),
@@ -87,7 +86,7 @@ export default function PatientsRegistration() {
         profession: form.profession,
         description: form.description,
         sickness: [form.sickness],
-        photo: `https://ui-avatars.com/api/?background=ffffff&name=${form.name}`,
+        photo: `https://ui-avatars.com/api/?background=f0f2f5&name=${form.name}`,
         medication: [
           {
             hour: hour,
@@ -98,7 +97,7 @@ export default function PatientsRegistration() {
         updatedAt: '',
       };
 
-      await await firestore()
+      await firestore()
         .collection('patients')
         .add(JSON.parse(JSON.stringify(docData)));
 
