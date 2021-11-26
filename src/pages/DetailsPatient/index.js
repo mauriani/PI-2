@@ -13,7 +13,13 @@ import {
 export default function DetailsPatient() {
   const route = useRoute();
 
+<<<<<<< HEAD
+  const { patientName, age, description, sickness, medication } = route.params;
+
+  console.log(medicine);
+=======
   const { patientName, description, sickness, medication } = route.params;
+>>>>>>> 253ed4b125770e669c7be910340c8cdc16b0e862
 
   return (
     <Container>
@@ -40,6 +46,10 @@ export default function DetailsPatient() {
       </Information>
 
       <Information>
+<<<<<<< HEAD
+        <Title>Remédios</Title>
+        <InformationsText>{medication}</InformationsText>
+=======
         {medication.length > 1 ? (
           <Title>Remédios</Title>
         ) : (
@@ -51,6 +61,7 @@ export default function DetailsPatient() {
               <InformationsText>- {item.medicine}</InformationsText>
             </Fragment>
           ))}
+>>>>>>> 253ed4b125770e669c7be910340c8cdc16b0e862
       </Information>
     </Container>
   );
