@@ -32,6 +32,16 @@ export default function Patients() {
 
   const { navigate } = useNavigation();
 
+  useEffect(() => {
+    getDados();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDados();
+    }, []),
+  );
+
   async function getDados() {
     setLoading(false);
 
@@ -61,21 +71,15 @@ export default function Patients() {
   }
 
   async function handleDelete(id) {
-    console.log('cheguei', id);
-
-    const updatedPatients = data.filter(task => task.id !== id);
-
-    await firestore().collection('patients').delete(updatedPatients);
+    await firestore()
+      .collection('patients')
+      .where('id', '==', id)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.docs[0].ref.delete();
+      });
 
     getDados();
-    // firestore()
-    //   .collection('patients')
-    //   .doc(`${id}`)
-    //   .delete()
-    //   .then(() => {
-    //     console.log('User deleted!');
-    //     getDados();
-    //   });
   }
 
   function handleNavigate(item) {
@@ -88,18 +92,6 @@ export default function Patients() {
       medication,
     });
   }
-
-  useEffect(() => {
-    getDados();
-  }, []);
-
-  useFocusEffect(
-    useCallback(() => {
-      getDados();
-    }, []),
-  );
-
-  console.log(data);
 
   return (
     <>

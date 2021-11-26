@@ -35,8 +35,6 @@ export const Card = styled.TouchableOpacity`
 `;
 
 export const List = styled.View`
-  flex: 1;
-
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
