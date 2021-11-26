@@ -49,11 +49,14 @@ export default function Patients() {
   );
 
   function handleNavigate(item) {
-    console.log(item);
     const { patientName, sickness, description, medication } = item;
 
-    // SEM CAMPO DE MEDICINE NO DETAILS
-    navigate('DetailsPatient', { patientName, description, sickness });
+    navigate('DetailsPatient', {
+      patientName,
+      description,
+      sickness,
+      medication,
+    });
   }
 
   return (

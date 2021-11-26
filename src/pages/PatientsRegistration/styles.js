@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { RFValue } from 'react-native-responsive-fontsize';
-import { BorderlessButton } from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { BorderlessButton } from 'react-native-gesture-handler';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
@@ -50,4 +50,32 @@ export const GoBackButton = styled(BorderlessButton)`
 export const Icon = styled(Ionicons)`
   font-size: ${RFValue(24)}px;
   color: ${({ theme }) => theme.colors.shape};
+`;
+
+export const DateBlock = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const ButtonDate = styled.TouchableOpacity`
+  width: 100%;
+  height: ${RFValue(56)}px;
+
+  background-color: ${({ theme }) => theme.colors.shape};
+
+  border-radius: 30px;
+
+  flex-direction: row;
+  align-items: center;
+
+  margin-bottom: 10px;
+`;
+
+export const ButtonDateTitle = styled.Text`
+  font-size: ${RFValue(15)}px;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.medium};
+
+  padding: 0 16px;
 `;

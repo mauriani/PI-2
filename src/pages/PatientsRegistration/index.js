@@ -3,6 +3,7 @@ import { Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import { TextInputMask } from 'react-native-masked-text';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
@@ -20,6 +21,9 @@ import {
   Content,
   Icon,
   GoBackButton,
+  DateBlock,
+  ButtonDate,
+  ButtonDateTitle,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -37,6 +41,7 @@ export default function PatientsRegistration() {
   const [cpf, setCpf] = useState('');
   const [hour, setHour] = useState('');
   const [listPatients, setListPatients] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const {
     control,
@@ -76,6 +81,7 @@ export default function PatientsRegistration() {
         return;
       }
     }
+
     try {
       const docData = {
         id: String(uuid.v4()),
@@ -108,6 +114,20 @@ export default function PatientsRegistration() {
       console.log(err);
     }
   }
+
+  const showStartDateTimePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = time => {
+    setHour(time.getHours() + ':' + time.getMinutes());
+
+    hideDatePicker();
+  };
 
   return (
     <Container>
@@ -189,17 +209,25 @@ export default function PatientsRegistration() {
           error={errors.medicine && errors.medicine.message}
         />
 
-        <TextInputMask
-          type={'datetime'}
-          options={{
-            format: 'HH:mm',
-          }}
-          placeholder={'Horário da medicação'}
-          style={[styles.input]}
-          value={hour}
-          onChangeText={text => {
-            setHour(text);
-          }}
+        <DateBlock>
+          <ButtonDate onPress={showStartDateTimePicker}>
+            <Icon name="clock" color={'#1ab563'} />
+            {hour == '' ? (
+              <ButtonDateTitle>Horário medicação</ButtonDateTitle>
+            ) : (
+              <ButtonDateTitle>{hour}</ButtonDateTitle>
+            )}
+          </ButtonDate>
+        </DateBlock>
+
+        <DateTimePicker
+          mode={'time'}
+          locale="pt-BR"
+          format="h:m A"
+          is24Hour={true}
+          isVisible={isDatePickerVisible}
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
         />
 
         <Button

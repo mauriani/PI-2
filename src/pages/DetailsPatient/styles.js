@@ -15,6 +15,10 @@ export const InformationsText = styled.Text`
   color: ${({ theme }) => theme.colors.text};
 `;
 
+export const InformationsTextBold = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.boldRubik};
+`;
+
 export const Title = styled.Text`
   font-size: ${RFValue(20)}px;
   font-family: ${({ theme }) => theme.fonts.boldRubik};
