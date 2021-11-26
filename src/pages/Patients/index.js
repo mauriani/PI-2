@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, Alert } from 'react-native';
+import { FlatList, Alert, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -12,6 +12,7 @@ import {
   Content,
   Title,
   Card,
+  List,
   CardPattients,
   UserAvatar,
   InformationContainer,
@@ -41,7 +42,7 @@ export default function Patients() {
     setLoading(true);
   }
 
-  async function handleRemovePatientData() {
+  async function handleRemovePatientData(id) {
     Alert.alert(
       'Remover paciente',
       'Tem certeza que voce deseja remover este paciente?',
@@ -53,16 +54,28 @@ export default function Patients() {
         {
           style: 'destructive',
           text: 'Sim',
-          onPress: () => {
-            const updatedPatients = data.filter(task => task.id !== id);
-
-            setData(updatedPatients);
-
-            await firestore().collection('patients').delete(updatedPatients);
-          },
+          onPress: () => handleDelete(id),
         },
       ],
     );
+  }
+
+  async function handleDelete(id) {
+    console.log('cheguei', id);
+
+    const updatedPatients = data.filter(task => task.id !== id);
+
+    await firestore().collection('patients').delete(updatedPatients);
+
+    getDados();
+    // firestore()
+    //   .collection('patients')
+    //   .doc(`${id}`)
+    //   .delete()
+    //   .then(() => {
+    //     console.log('User deleted!');
+    //     getDados();
+    //   });
   }
 
   function handleNavigate(item) {
@@ -86,6 +99,8 @@ export default function Patients() {
     }, []),
   );
 
+  console.log(data);
+
   return (
     <>
       {loading === true ? (
@@ -97,33 +112,40 @@ export default function Patients() {
               data={data}
               keyExtractor={item => item.id}
               showsVerticalScrollIndicator={false}
-              style={{ flex: 1 }}
               renderItem={({ item }) => (
-                <Card onPress={() => handleNavigate(item)} key={item.id}>
-                  <CardPattients>
-                    <UserAvatar
-                      source={{
-                        uri: `${item.photo}`,
-                      }}
-                    />
-                  </CardPattients>
+                <>
+                  <List>
+                    <Card onPress={() => handleNavigate(item)} key={item.id}>
+                      <CardPattients>
+                        <UserAvatar
+                          source={{
+                            uri: `${item.photo}`,
+                          }}
+                        />
+                      </CardPattients>
 
-                  <InformationContainer>
-                    <Information>
-                      <PatientsName>{item.patientName}</PatientsName>
-                      <PatientsText>
-                        <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
-                      </PatientsText>
-                      <PatientsText>
-                        <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
-                      </PatientsText>
-                    </Information>
+                      <InformationContainer>
+                        <Information>
+                          <PatientsName>{item.patientName}</PatientsName>
+                          <PatientsText>
+                            <PatientsTextBold>Idade - </PatientsTextBold>{' '}
+                            {item.age}
+                          </PatientsText>
+                          <PatientsText>
+                            <PatientsTextBold>Sexo - </PatientsTextBold>{' '}
+                            {item.sex}
+                          </PatientsText>
+                        </Information>
+                      </InformationContainer>
+                    </Card>
 
-                    <RemovePatientButton onPress={handleRemovePatientData}>
+                    <RemovePatientButton
+                      onPress={() => handleRemovePatientData(item.id)}
+                    >
                       <Icon name="trash" />
                     </RemovePatientButton>
-                  </InformationContainer>
-                </Card>
+                  </List>
+                </>
               )}
             />
 

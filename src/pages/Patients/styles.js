@@ -27,12 +27,21 @@ export const Card = styled.TouchableOpacity`
   flex-direction: row;
 
   height: ${RFValue(100)}px;
+  width: 85%;
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.shape};
 
   padding: 10px;
+`;
 
-  margin: 0px 10px 9px 10px;
+export const List = styled.View`
+  flex: 1;
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 3px 10px 6px 10px;
 `;
 
 export const CardPattients = styled.View`
@@ -61,12 +70,20 @@ export const Information = styled.View`
 `;
 
 export const RemovePatientButton = styled(BorderlessButton)`
-  justify-content: space-between;
+  width: ${RFValue(40)}px;
+  height: ${RFValue(40)}px;
+
+  border-radius: 40px;
+
+  background-color: #cf3751;
+
   align-items: center;
+  justify-content: center;
 `;
 
 export const Icon = styled(Feather)`
   font-size: ${RFValue(25)}px;
+  color: ${({ theme }) => theme.colors.shape};
 `;
 
 export const PatientsName = styled.Text`
