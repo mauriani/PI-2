@@ -1,8 +1,8 @@
-import { RFValue } from 'react-native-responsive-fontsize';
-import { BorderlessButton } from 'react-native-gesture-handler';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import styled from 'styled-components';
+import { RFValue } from 'react-native-responsive-fontsize';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
@@ -40,6 +40,8 @@ export const Content = styled.ScrollView`
   padding-bottom: 15px;
   padding-left: 10px;
   padding-right: 10px;
+
+  margin-top: 10px;
 `;
 export const GoBackButton = styled(BorderlessButton)`
   justify-content: flex-start;
@@ -47,5 +49,32 @@ export const GoBackButton = styled(BorderlessButton)`
 
 export const Icon = styled(Ionicons)`
   font-size: ${RFValue(24)}px;
-  color: ${({ theme }) => theme.colors.shape};
+`;
+
+export const DateBlock = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const ButtonDate = styled.TouchableOpacity`
+  width: 100%;
+  height: ${RFValue(56)}px;
+
+  background-color: ${({ theme }) => theme.colors.shape};
+
+  border-radius: 30px;
+
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 10px;
+  padding: 0 16px;
+`;
+
+export const ButtonDateTitle = styled.Text`
+  font-size: ${RFValue(15)}px;
+  color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.medium};
 `;

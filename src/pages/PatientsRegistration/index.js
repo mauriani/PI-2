@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import { TextInputMask } from 'react-native-masked-text';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import uuid from 'react-native-uuid';
 
 import { useForm } from 'react-hook-form';
@@ -18,6 +21,9 @@ import {
   Content,
   Icon,
   GoBackButton,
+  DateBlock,
+  ButtonDate,
+  ButtonDateTitle,
 } from './styles';
 
 const schema = Yup.object().shape({
@@ -28,11 +34,14 @@ const schema = Yup.object().shape({
   description: Yup.string().required('Descrição é obrigatória'),
   sickness: Yup.string().required('Doença é obrigatória'),
   medicine: Yup.string(),
-  hour: Yup.string(),
 });
 
 export default function PatientsRegistration() {
   const navigation = useNavigation();
+  const [cpf, setCpf] = useState('');
+  const [hour, setHour] = useState('');
+  const [listPatients, setListPatients] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const {
     control,
@@ -42,20 +51,51 @@ export default function PatientsRegistration() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    getPatients();
+  }, []);
+
+  async function getPatients() {
+    const snapshot = await firestore().collection('patients').get();
+    const patients = snapshot.docs.map(doc => doc.data());
+
+    setListPatients(patients);
+  }
+
   async function handleSubmitPatientsRegistration(form) {
+    if (cpf == '') {
+      Alert.alert('Atenção', 'Informe o CPF do paciente para continuar.');
+      return;
+    }
+
+    if (hour == '') {
+      Alert.alert('Atenção', 'Informe o horário da medicação do paciente.');
+      return;
+    }
+
+    if (cpf != '') {
+      const value = listPatients.find(elem => elem.cpf === cpf);
+
+      if (value) {
+        Alert.alert('Atenção', 'Esse CPF já foi cadastrado.');
+        return;
+      }
+    }
+
     try {
       const docData = {
         id: String(uuid.v4()),
         patientName: form.name,
+        cpf: cpf,
         age: form.age,
         sex: form.sex,
         profession: form.profession,
         description: form.description,
         sickness: [form.sickness],
-        photo: `https://ui-avatars.com/api/?name=${form.name}`,
+        photo: `https://ui-avatars.com/api/?background=f0f2f5&name=${form.name}`,
         medication: [
           {
-            hour: form.hour,
+            hour: hour,
             medicine: form.medicine,
           },
         ],
@@ -63,9 +103,11 @@ export default function PatientsRegistration() {
         updatedAt: '',
       };
 
-      await await firestore()
+      await firestore()
         .collection('patients')
         .add(JSON.parse(JSON.stringify(docData)));
+
+      Alert.alert('Sucesso', 'Paciente cadastrado');
 
       navigation.goBack();
     } catch (err) {
@@ -73,12 +115,26 @@ export default function PatientsRegistration() {
     }
   }
 
+  const showStartDateTimePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = time => {
+    setHour(time.getHours() + ':' + time.getMinutes());
+
+    hideDatePicker();
+  };
+
   return (
     <Container>
       <Header>
         <Topo>
           <GoBackButton onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" />
+            <Icon name="arrow-back" color={'#ffffff'} />
           </GoBackButton>
           <HeaderText>Cadastro de paciente</HeaderText>
         </Topo>
@@ -87,12 +143,22 @@ export default function PatientsRegistration() {
       <Content>
         <InputForm
           name="name"
-          placeholder="Nome"
+          placeholder="Nome completo"
           control={control}
           autoCorrect
           autoCapitalize="words"
           returnKeyType="next"
           error={errors.name && errors.name.message}
+        />
+
+        <TextInputMask
+          type={'cpf'}
+          placeholder={'CPF'}
+          style={[styles.input]}
+          value={cpf}
+          onChangeText={text => {
+            setCpf(text);
+          }}
         />
         <InputForm
           name="age"
@@ -142,11 +208,27 @@ export default function PatientsRegistration() {
           control={control}
           error={errors.medicine && errors.medicine.message}
         />
-        <InputForm
-          name="hour"
-          placeholder="Horários"
-          control={control}
-          error={errors.hour && errors.hour.message}
+
+        <DateBlock>
+          <ButtonDate onPress={showStartDateTimePicker}>
+            {hour == '' ? (
+              <ButtonDateTitle>Horário da medicação</ButtonDateTitle>
+            ) : (
+              <ButtonDateTitle>{hour}</ButtonDateTitle>
+            )}
+
+            <Icon name="calendar" color={'#1ab563'} />
+          </ButtonDate>
+        </DateBlock>
+
+        <DateTimePicker
+          mode={'time'}
+          locale="pt-BR"
+          format="h:m A"
+          is24Hour={true}
+          isVisible={isDatePickerVisible}
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
         />
 
         <Button
@@ -157,3 +239,16 @@ export default function PatientsRegistration() {
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: '#ffffff',
+    height: 62,
+    borderRadius: 30,
+    color: '#363f5f',
+    fontSize: 17,
+    marginBottom: 10,
+    fontFamily: 'RobotoSlab-Medium',
+    padding: 20,
+  },
+});

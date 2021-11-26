@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { ScrollView, BackHandler, Alert } from 'react-native';
+import { ScrollView, BackHandler } from 'react-native';
 import ReactNativeAN from 'react-native-alarm-notification';
 import firestore from '@react-native-firebase/firestore';
 import PushNotification from 'react-native-push-notification';
@@ -15,7 +15,6 @@ import {
   Title,
   ContainerHour,
   SubTitle,
-  Icon,
   TitleMedication,
 } from './styles';
 
@@ -110,8 +109,6 @@ export default function Dashboard() {
 
       setData(myData);
       setIsLoading(true);
-
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -144,7 +141,6 @@ export default function Dashboard() {
           method();
           async function method() {
             const alarm = await ReactNativeAN.scheduleAlarm(alarmNotifData);
-            console.log('alarm', alarm);
             //Delete Scheduled Alarm
             ReactNativeAN.deleteAlarm(alarm.id);
             //Delete Repeating Alarm
@@ -164,7 +160,7 @@ export default function Dashboard() {
   return (
     <>
       {isLoading === false ? (
-        <Loading title={'Carregando dashboard ...'} />
+        <Loading title={'Carregando'} />
       ) : (
         <Container>
           <Header />
