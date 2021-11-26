@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, Fragment } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { FlatList, View } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -14,12 +14,15 @@ import {
   Card,
   CardPattients,
   UserAvatar,
+  InformationContainer,
   Information,
   PatientsName,
   PatientsTextBold,
   PatientsText,
   RegisterButton,
   RegisterIcon,
+  RemovePatientButton,
+  Icon,
 } from './styles';
 
 export default function Patients() {
@@ -38,15 +41,29 @@ export default function Patients() {
     setLoading(true);
   }
 
-  useEffect(() => {
-    getDados();
-  }, []);
+  async function handleRemovePatientData() {
+    Alert.alert(
+      'Remover paciente',
+      'Tem certeza que voce deseja remover este paciente?',
+      [
+        {
+          style: 'cancel',
+          text: 'Não',
+        },
+        {
+          style: 'destructive',
+          text: 'Sim',
+          onPress: () => {
+            const updatedPatients = data.filter(task => task.id !== id);
 
-  useFocusEffect(
-    useCallback(() => {
-      getDados();
-    }, []),
-  );
+            setData(updatedPatients);
+
+            await firestore().collection('patients').delete(updatedPatients);
+          },
+        },
+      ],
+    );
+  }
 
   function handleNavigate(item) {
     const { patientName, sickness, description, medication } = item;
@@ -58,6 +75,16 @@ export default function Patients() {
       medication,
     });
   }
+
+  useEffect(() => {
+    getDados();
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getDados();
+    }, []),
+  );
 
   return (
     <>
@@ -81,15 +108,21 @@ export default function Patients() {
                     />
                   </CardPattients>
 
-                  <Information>
-                    <PatientsName>{item.patientName}</PatientsName>
-                    <PatientsText>
-                      <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
-                    </PatientsText>
-                    <PatientsText>
-                      <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
-                    </PatientsText>
-                  </Information>
+                  <InformationContainer>
+                    <Information>
+                      <PatientsName>{item.patientName}</PatientsName>
+                      <PatientsText>
+                        <PatientsTextBold>Idade - </PatientsTextBold> {item.age}
+                      </PatientsText>
+                      <PatientsText>
+                        <PatientsTextBold>Sexo - </PatientsTextBold> {item.sex}
+                      </PatientsText>
+                    </Information>
+
+                    <RemovePatientButton onPress={handleRemovePatientData}>
+                      <Icon name="trash" />
+                    </RemovePatientButton>
+                  </InformationContainer>
                 </Card>
               )}
             />

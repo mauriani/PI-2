@@ -46,11 +46,27 @@ export const UserAvatar = styled.Image`
   border-radius: 98px;
 `;
 
+export const InformationContainer = styled.View`
+  width: 75%;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const Information = styled.View`
   flex-direction: column;
   justify-content: center;
 
   padding: 0 10px;
+`;
+
+export const RemovePatientButton = styled(BorderlessButton)`
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Icon = styled(Feather)`
+  font-size: ${RFValue(25)}px;
 `;
 
 export const PatientsName = styled.Text`
