@@ -7,7 +7,7 @@ import { Container, Title, Information, InformationsText } from './styles';
 export default function DetailsPatient() {
   const route = useRoute();
 
-  const { patientName, age, description, sickness, medicine } = route.params;
+  const { patientName, age, description, sickness, medication } = route.params;
 
   console.log(medicine);
 
@@ -31,7 +31,7 @@ export default function DetailsPatient() {
 
       <Information>
         <Title>Remédios</Title>
-        <InformationsText>{medicine}</InformationsText>
+        <InformationsText>{medication}</InformationsText>
       </Information>
     </Container>
   );
