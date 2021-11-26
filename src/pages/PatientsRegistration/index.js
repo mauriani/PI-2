@@ -63,6 +63,8 @@ export default function PatientsRegistration() {
   }
 
   async function handleSubmitPatientsRegistration(form) {
+    let formattedAge = '';
+
     if (cpf == '') {
       Alert.alert('Atenção', 'Informe o CPF do paciente para continuar.');
       return;
@@ -82,12 +84,18 @@ export default function PatientsRegistration() {
       }
     }
 
+    if (form.age.indexOf('anos') == -1) {
+      formattedAge = `${form.age} anos`;
+    } else {
+      formattedAge = form.age;
+    }
+
     try {
       const docData = {
         id: String(uuid.v4()),
         patientName: form.name,
         cpf: cpf,
-        age: form.age,
+        age: formattedAge,
         sex: form.sex,
         profession: form.profession,
         description: form.description,
@@ -217,7 +225,7 @@ export default function PatientsRegistration() {
               <ButtonDateTitle>{hour}</ButtonDateTitle>
             )}
 
-            <Icon name="calendar" color={'#1ab563'} />
+            <Icon name="calendar" color={'#61C5BD'} />
           </ButtonDate>
         </DateBlock>
 
