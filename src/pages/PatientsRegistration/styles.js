@@ -49,7 +49,6 @@ export const GoBackButton = styled(BorderlessButton)`
 
 export const Icon = styled(Ionicons)`
   font-size: ${RFValue(24)}px;
-  color: ${({ theme }) => theme.colors.shape};
 `;
 
 export const DateBlock = styled.View`
@@ -67,15 +66,15 @@ export const ButtonDate = styled.TouchableOpacity`
   border-radius: 30px;
 
   flex-direction: row;
+  justify-content: space-between;
   align-items: center;
 
   margin-bottom: 10px;
+  padding: 0 16px;
 `;
 
 export const ButtonDateTitle = styled.Text`
   font-size: ${RFValue(15)}px;
   color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.fonts.medium};
-
-  padding: 0 16px;
 `;

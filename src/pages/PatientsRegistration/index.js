@@ -134,7 +134,7 @@ export default function PatientsRegistration() {
       <Header>
         <Topo>
           <GoBackButton onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" />
+            <Icon name="arrow-back" color={'#ffffff'} />
           </GoBackButton>
           <HeaderText>Cadastro de paciente</HeaderText>
         </Topo>
@@ -211,12 +211,13 @@ export default function PatientsRegistration() {
 
         <DateBlock>
           <ButtonDate onPress={showStartDateTimePicker}>
-            <Icon name="clock" color={'#1ab563'} />
             {hour == '' ? (
-              <ButtonDateTitle>Horário medicação</ButtonDateTitle>
+              <ButtonDateTitle>Horário da medicação</ButtonDateTitle>
             ) : (
               <ButtonDateTitle>{hour}</ButtonDateTitle>
             )}
+
+            <Icon name="calendar" color={'#1ab563'} />
           </ButtonDate>
         </DateBlock>
 
