@@ -132,7 +132,10 @@ export default function PatientsRegistration() {
   };
 
   const handleConfirm = time => {
-    setHour(time.getHours() + ':' + time.getMinutes());
+    let minutes = time.getMinutes();
+    minutes = minutes > 9 ? minutes : '0' + minutes;
+
+    setHour(time.getHours() + ':' + minutes);
 
     hideDatePicker();
   };
@@ -232,7 +235,7 @@ export default function PatientsRegistration() {
         <DateTimePicker
           mode={'time'}
           locale="pt-BR"
-          format="h:m A"
+          format="h:mm A"
           is24Hour={true}
           isVisible={isDatePickerVisible}
           onConfirm={handleConfirm}
