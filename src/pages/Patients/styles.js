@@ -23,23 +23,27 @@ export const Title = styled.Text`
   margin-bottom: 8px;
 `;
 
-export const Card = styled.TouchableOpacity`
-  flex-direction: row;
-
-  height: ${RFValue(100)}px;
-  width: 85%;
-  border-radius: 10px;
-  background: ${({ theme }) => theme.colors.shape};
-
-  padding: 10px;
-`;
-
 export const List = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
   margin: 3px 10px 6px 10px;
+`;
+
+export const CardAcess = styled.TouchableOpacity`
+  flex-direction: row;
+
+  height: ${RFValue(100)}px;
+  width: 90%;
+`;
+
+export const Card = styled.View`
+  flex-direction: row;
+
+  background: ${({ theme }) => theme.colors.shape};
+
+  border-radius: 10px;
 `;
 
 export const CardPattients = styled.View`
@@ -51,6 +55,7 @@ export const UserAvatar = styled.Image`
   width: ${RFValue(80)}px;
   height: ${RFValue(80)}px;
   border-radius: 98px;
+  margin-left: 5px;
 `;
 
 export const InformationContainer = styled.View`
@@ -68,15 +73,16 @@ export const Information = styled.View`
 `;
 
 export const RemovePatientButton = styled(BorderlessButton)`
-  width: ${RFValue(40)}px;
-  height: ${RFValue(40)}px;
-
-  border-radius: 40px;
-
-  background-color: #cf3751;
+  width: 10%;
+  height: ${RFValue(100)}px;
 
   align-items: center;
   justify-content: center;
+
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+
+  background-color: ${({ theme }) => theme.colors.attention};
 `;
 
 export const Icon = styled(Feather)`

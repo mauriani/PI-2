@@ -12,6 +12,7 @@ import {
   Content,
   Title,
   Card,
+  CardAcess,
   List,
   CardPattients,
   UserAvatar,
@@ -107,35 +108,40 @@ export default function Patients() {
               renderItem={({ item }) => (
                 <>
                   <List>
-                    <Card onPress={() => handleNavigate(item)} key={item.id}>
-                      <CardPattients>
-                        <UserAvatar
-                          source={{
-                            uri: `${item.photo}`,
-                          }}
-                        />
-                      </CardPattients>
+                    <Card>
+                      <CardAcess
+                        onPress={() => handleNavigate(item)}
+                        key={item.id}
+                      >
+                        <CardPattients>
+                          <UserAvatar
+                            source={{
+                              uri: `${item.photo}`,
+                            }}
+                          />
+                        </CardPattients>
 
-                      <InformationContainer>
-                        <Information>
-                          <PatientsName>{item.patientName}</PatientsName>
-                          <PatientsText>
-                            <PatientsTextBold>Idade - </PatientsTextBold>{' '}
-                            {item.age}
-                          </PatientsText>
-                          <PatientsText>
-                            <PatientsTextBold>Sexo - </PatientsTextBold>{' '}
-                            {item.sex}
-                          </PatientsText>
-                        </Information>
-                      </InformationContainer>
+                        <InformationContainer>
+                          <Information>
+                            <PatientsName>{item.patientName}</PatientsName>
+                            <PatientsText>
+                              <PatientsTextBold>Idade - </PatientsTextBold>{' '}
+                              {item.age}
+                            </PatientsText>
+                            <PatientsText>
+                              <PatientsTextBold>Sexo - </PatientsTextBold>{' '}
+                              {item.sex}
+                            </PatientsText>
+                          </Information>
+                        </InformationContainer>
+                      </CardAcess>
+
+                      <RemovePatientButton
+                        onPress={() => handleRemovePatientData(item.id)}
+                      >
+                        <Icon name="trash" />
+                      </RemovePatientButton>
                     </Card>
-
-                    <RemovePatientButton
-                      onPress={() => handleRemovePatientData(item.id)}
-                    >
-                      <Icon name="trash" />
-                    </RemovePatientButton>
                   </List>
                 </>
               )}
