@@ -3,7 +3,7 @@
 
 ## 🚀 Sobre o projeto
 
-Esse projeto foi desenvolvido durante a disciplina de PI 2 (Projeto integrador). A ideia é que o infermeiro, possa visualizar ficha e horário de medicação dos pacientes através do App.
+Esse projeto foi desenvolvido durante a disciplina de PI 2 (Projeto integrador). A ideia é que o enfermeiro, possa visualizar ficha e horário de medicação dos pacientes através do App.
 
 ## 🖥️ Tecnologias usadadas
 
