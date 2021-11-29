@@ -41,3 +41,13 @@ export const Form = styled.View`
 
   padding: 10px;
 `;
+
+export const SignUpButton = styled.TouchableOpacity`
+  margin-top: 30px;
+`;
+
+export const ButtonText = styled.Text`
+  color: ${({ theme }) => theme.colors.attention_light};
+  font-size: ${RFValue(15)}px;
+  font-family: ${({ theme }) => theme.fonts.medium};
+`;

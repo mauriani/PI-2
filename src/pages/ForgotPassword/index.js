@@ -16,7 +16,15 @@ import LogoHeader from '../../assets/images/medic04_preto.png';
 import Button from '../../components/Button';
 import InputForm from '../../components/InputForm';
 
-import { Container, Logo, Title, InformationsText, Form } from './styles';
+import {
+  Container,
+  Logo,
+  Title,
+  InformationsText,
+  Form,
+  SignUpButton,
+  ButtonText,
+} from './styles';
 
 const schema = Yup.object().shape({
   email: Yup.string().required('E-mail é obrigatório'),
@@ -45,11 +53,15 @@ export default function ForgotPassword() {
           'Sucesso',
           'Por favor verifique se email, acabamos de enviar as orientações para recuperação de senha !',
         );
-        navigation.navigate('SignIn');
+        navigateToSignIn();
       })
       .catch(function (e) {
         console.log(e);
       });
+  }
+
+  function navigateToSignIn() {
+    navigation.navigate('SignIn');
   }
 
   return (
@@ -86,6 +98,10 @@ export default function ForgotPassword() {
               title="Recuperar"
               onPress={handleSubmit(handleForgotPassword)}
             />
+
+            <SignUpButton onPress={navigateToSignIn}>
+              <ButtonText>Voltar para login</ButtonText>
+            </SignUpButton>
           </Form>
         </Container>
       </ScrollView>
