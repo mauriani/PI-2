@@ -14,8 +14,11 @@ Esse projeto foi desenvolvido durante a disciplina de PI 2 (Projeto integrador).
 
 - Cadastro de usuário;
 - Cadastro de paciente;
+- Exclusão de paciente;
 - Alteração de dados do usuário;
 - Visualização de horário de medicação.
+- Perfil de usuário
+- Recuperação de senha
 
 ## Executando Projeto
 
